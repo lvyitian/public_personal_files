@@ -1,0 +1,43 @@
+  public static void setPlayerNBT(String player,String newNBT) throws Exception {
+        @SuppressWarnings("deprecation")
+        Player p = Bukkit.getOfflinePlayer(player).getPlayer();
+        String CraftBukkitPackage=Bukkit.getServer().getClass().getPackage().getName();
+        String NMSPackage=CraftBukkitPackage.replace("org.bukkit.craftbukkit", "net.minecraft.server");
+        Class<?> CraftPlayerClass=Class.forName(CraftBukkitPackage+".entity.CraftPlayer");
+        Method getHandle=CraftPlayerClass.getDeclaredMethod("getHandle", new Class<?>[0]);
+        getHandle.setAccessible(true);
+        Object NMSPlayer=getHandle.invoke(p, new Object[0]);
+        Class<?> EntityClass=Class.forName(NMSPackage+".Entity");
+        Class<?> MojangsonParser= Class.forName(NMSPackage+".MojangsonParser");
+        Method parse=MojangsonParser.getDeclaredMethod("parse",String.class);
+        parse.setAccessible(true);
+        Object nNBT=parse.invoke(null,newNBT);
+        try {
+            Class<?> CommandAbstract=Class.forName(NMSPackage+".CommandAbstract");
+            Method a=CommandAbstract.getDeclaredMethod("a", new Class<?>[] {EntityClass});
+            a.setAccessible(true);
+            Object NBTComponentObj=a.invoke(null, new Object[] {NMSPlayer});
+            Class<?> NBTComponentClass=NBTComponentObj.getClass();
+            Method setNBT=EntityClass.getDeclaredMethod("f",NBTComponentClass);
+            setNBT.setAccessible(true);
+            Method combine=NBTComponentClass.getDeclaredMethod("a",NBTComponentClass);
+            combine.setAccessible(true);
+            combine.invoke(NBTComponentObj,nNBT);
+            setNBT.invoke(NMSPlayer,NBTComponentObj);
+        }catch(Throwable e) {
+            Class<?> CommandDataAccessorEntityClass=Class.forName(NMSPackage+".CommandDataAccessorEntity");
+            Constructor<?> tc=CommandDataAccessorEntityClass.getDeclaredConstructor(new Class<?>[] {EntityClass});
+            tc.setAccessible(true);
+            Object DataAccessor=tc.newInstance(NMSPlayer);
+            Method a=DataAccessor.getClass().getDeclaredMethod("a", new Class<?>[0]);
+            a.setAccessible(true);
+            Object NBTCom=a.invoke(DataAccessor, new Object[0]);
+            Class<?> NBTComponentClass=NBTCom.getClass();
+            Method setNBT=EntityClass.getDeclaredMethod("f",NBTComponentClass);
+            setNBT.setAccessible(true);
+            Method combine=NBTComponentClass.getDeclaredMethod("a",NBTComponentClass);
+            combine.setAccessible(true);
+            combine.invoke(NBTCom,nNBT);
+            setNBT.invoke(NMSPlayer,NBTCom);
+        }
+    }
