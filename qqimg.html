@@ -1,0 +1,12 @@
+<input id="uid"></input>
+<img id="ori"></img>
+<script>
+uid.oninput=e=>{
+var v=uid.value;
+var u="";
+for(let i=0;i<v.length;i++)
+  if('a'.charCodeAt()<=v[i].charCodeAt()&&'z'.charCodeAt()>=v[i].charCodeAt()||'A'.charCodeAt()<=v[i].charCodeAt()&&'Z'.charCodeAt()>=v[i].charCodeAt()||'0'.charCodeAt()<=v[i].charCodeAt()&&'9'.charCodeAt()>=v[i].charCodeAt())
+    u+=v[i];
+ori.src="http://gchat.qpic.cn/gchatpic_new/0/0-0-"+u+"/0?term=2";
+};
+</script>
