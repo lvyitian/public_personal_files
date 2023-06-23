@@ -59,7 +59,7 @@ $headers_dict["X-TC-Version"]="2021-03-23";
 $headers_dict["X-TC-Timestamp"]=$current_timestamp.ToString();
 $headers_dict["Content-Type"]="application/x-www-form-urlencoded";
 $headers_dict["Authorization"]=$Authorization;
-$domain_list=[Newtonsoft.Json.Linq.JObject]::Parse((Invoke-WebRequest -Uri ("https://cns.api.qcloud.com/v2/index.php?"+$combined_arg) -Method 'GET' -Headers $headers_dict -SkipHeaderValidation).Content);
+$domain_list=[Newtonsoft.Json.Linq.JObject]::Parse((Invoke-WebRequest -Uri ("https://dnspod.tencentcloudapi.com?"+$combined_arg) -Method 'GET' -Headers $headers_dict -SkipHeaderValidation).Content);
 $record_id=-1;
 if(($domain_list -ne $null) -and ($domain_list['Response'] -ne $null) -and ($domain_list['Response']['RecordList'] -ne $null))
 {
@@ -107,7 +107,7 @@ $headers_dict["X-TC-Version"]="2021-03-23";
 $headers_dict["X-TC-Timestamp"]=$current_timestamp.ToString();
 $headers_dict["Content-Type"]="application/x-www-form-urlencoded";
 $headers_dict["Authorization"]=$Authorization;
-echo (Invoke-WebRequest -Uri ("https://cns.api.qcloud.com/v2/index.php?"+$combined_arg) -Method 'GET' -Headers $headers_dict -SkipHeaderValidation).Content;
+echo (Invoke-WebRequest -Uri ("https://dnspod.tencentcloudapi.com?"+$combined_arg) -Method 'GET' -Headers $headers_dict -SkipHeaderValidation).Content;
 }else{
 echo 'Domain does not exist';
 }
