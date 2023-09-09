@@ -1,0 +1,9 @@
+<canvas id="c1" width=300 height=300></canvas>
+<input id="i1" size=150 text="text" value="drawFunction(x=>,1e-3,-width/2.0/zoom,width/2.0/zoom)"></input>
+<button id="b1" onclick="try{eval(i1.value);}catch(e){alert(e);}">Draw</button>
+<button id="b2" onclick='context.clearRect(0,0,width,height);for(var x=0;x<=width;x++)context.fillRect(x,height/2.0,1,1);for(var y=0;y<=height;y++)context.fillRect(width/2.0,y,1,1);context.font=font+"px sans-serif";for(var x=0;x<=width;x+=zoom)if((x-width/2.0)/zoom!=0)context.fillText((x-width/2.0)/zoom,x-font/2.0,height/2.0-off);for(var y=0;y<=height;y+=zoom)if(-(y-height/2.0)/zoom!=0)context.fillText(-(y-height/2.0)/zoom,width/2.0+off,y+font/2.0);context.fillText("0",width/2.0-off-font/2.0+2.0,height/2.0+off+font/2.0);'>Clear</button>
+<button id="b3" onclick="context=c1.getContext('2d');width=c1.width;height=c1.height;zoom=15.0;off=5.0;font=6;drawFunction=(f,d,a,b)=>{a=Math.min(a,b);b=Math.max(a,b);for(var ca=a;ca<=b;ca+=d){var ra=ca*zoom+width/2.0;context.fillRect(ra,height/2.0-f(ca)*zoom,1,1);}};b2.onclick(null);">Default</button>
+<script>
+i1.onkeypress=e=>{if(e.code=="Enter") b1.onclick();}
+b3.onclick(null);
+</script>

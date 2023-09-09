@@ -1,0 +1,66 @@
+<body id="body">
+<canvas id="c1"/>
+<script>
+var context=c1.getContext('2d');
+var render_objects=[];
+function Player()
+{
+if(this.constructor!=Player)
+  throw new SyntaxError("Player is not a function,it is a constructor.");
+this.x=0;
+this.y=0;
+this.width=20;
+this.height=20;
+this.speed=3;
+this.noclip=false;
+this.nogravity=false;
+this.visible=true;
+this.jumpheight=100;
+this.jumpspeed=3;
+this.jumped=0;
+this.gravity=3;
+this.jumping=false;
+}
+render_objects.push(new Player());
+async function update()
+{
+render_objects.forEach(tmp2=>{
+if(tmp2 instanceof Player){
+if(!tmp2.nogravity&&!tmp2.noclip)
+{
+if(!tmp2.jumping)
+  tmp2.y=tmp2.y+tmp2.height+tmp2.gravity<=c1.height?tmp2.y+tmp2.gravity:c1.height-tmp2.height;
+if(space&&tmp2.y+tmp2.height+tmp2.gravity>c1.height)tmp2.jumping=true;
+if(tmp2.jumping)
+  if(tmp2.y-tmp2.jumpspeed>=0&&tmp2.jumped<tmp2.jumpheight)
+  {
+    var tempj=(tmp2.y-tmp2.jumpspeed>=0?tmp2.y-tmp2.jumpspeed:0)-tmp2.y;
+    tmp2.y+=tempj;
+    tmp2.jumped+=Math.abs(tempj);
+  }else{
+    tmp2.jumping=false;
+    tmp2.jumped=0;
+  }
+}
+if(w&&(tmp2.noclip||(tmp2.nogravity&&tmp2.y-tmp2.speed>=0)))tmp2.y-=tmp2.speed;
+if(a&&(tmp2.noclip||tmp2.x-tmp2.speed>=0))tmp2.x-=tmp2.speed;
+if(s&&(tmp2.noclip||(tmp2.nogravity&&tmp2.y+tmp2.height+tmp2.speed<=c1.height)))tmp2.y+=tmp2.speed;
+if(d&&(tmp2.noclip||tmp2.x+tmp2.width+tmp2.speed<=c1.width))tmp2.x+=tmp2.speed;
+}
+});
+context.clearRect(0,0,c1.width,c1.height);
+render_objects.forEach(tmp=>{
+if(tmp.visible)
+{
+  context.fillRect(tmp.x,tmp.y,tmp.width,tmp.height);
+}
+});
+}
+setInterval(update,1);
+window.onresize=()=>{c1.width=body.offsetWidth;c1.height=body.offsetHeight;update();};
+window.onresize();
+var w=false,a=false,s=false,d=false,space=false;
+window.onkeydown=e=>{if(e.code=="KeyW")w=true; else if(e.code=="KeyA")a=true; else if(e.code=="KeyS")s=true; else if(e.code=="KeyD")d=true; else if(e.code=="Space")space=true;}
+window.onkeyup=e=>{if(e.code=="KeyW")w=false; else if(e.code=="KeyA")a=false; else if(e.code=="KeyS")s=false; else if(e.code=="KeyD")d=false; else if(e.code=="Space")space=false;}
+</script>
+</body>
