@@ -1,0 +1,46 @@
+listen _ 80 _
+_ _ _ _ # Wait for connection
+next_event _ _ _
+send _ "HTTP/1.1" 8
+send _ " 200 OK\r" 8
+send _ "\nContent" 8
+send _ "-Length:" 8
+send _ " 271\r\nCo" 8
+send _ "ntent-Ty" 8
+send _ "pe: text" 8
+send _ "/html" 5
+send _ "\r\n\r\n" 4
+
+send _ "<!DOCTYP" 8
+send _ "E html>\r" 8
+send _ "\n<html>\r" 8
+send _ "\n<body>\r" 8
+send _ "\n\r\n<butt" 8
+send _ "on oncli" 8
+send _ "ck='myFu" 8
+send _ "nction()" 8
+send _ "'>Click " 8
+send _ "me</butt" 8
+send _ "on>\r\n\r\n<" 8
+send _ "p id='bu" 8
+send _ "tton'></" 8
+send _ "p>\r\n\r\n<s" 8
+send _ "cript>\r\n" 8
+send _ "function" 8
+send _ " myFunct" 8
+send _ "ion() {\r" 8
+send _ "\n  docum" 8
+send _ "ent.getE" 8
+send _ "lementBy" 8
+send _ "Id('butt" 8
+send _ "on').inn" 8
+send _ "erHTML =" 8
+send _ " 'Hello " 8
+send _ "World';\r" 8
+send _ "\n}\r\n</sc" 8
+send _ "ript>\r\n\r" 8
+send _ "\n</body>" 8
+send _ "\r\n</html" 8
+send _ ">" 1
+
+close _ _ _

@@ -1,0 +1,88 @@
+listen _ 80 _
+_ _ _ _ # Wait for connection
+next_event _ _ _
+send _ "HTTP/1.1" 8
+send _ " 200 OK\r" 8
+send _ "\nContent" 8
+send _ "-Length:" 8
+send _ " 1607\r\nC" 8
+send _ "ontent-T" 8
+send _ "ype: tex" 8
+send _ "t/html" 6
+send _ "\r\n\r\n" 4
+
+send _ "<!DOCTYP" 8
+send _ "E html>\n" 8
+send _ "<html la" 8
+send _ "ng='en'>" 8
+send _ "\n<head>\n" 8
+send _ "<title>b" 8
+send _ "anana</t" 8
+send _ "itle>\n<m" 8
+send _ "eta char" 8
+send _ "set='UTF" 8
+send _ "-8' />\n<" 8
+send _ "meta nam" 8
+send _ "e='descr" 8
+send _ "iption' " 8
+send _ "content=" 8
+send _ "'this is" 8
+send _ " my firs" 8
+send _ "t websit" 8
+send _ "e'>\n<met" 8
+send _ "a name='" 8
+send _ "viewport" 8
+send _ "' conten" 8
+send _ "t='width" 8
+send _ "=device-" 8
+send _ "width, i" 8
+send _ "nitial-s" 8
+send _ "cale=1.0" 8
+send _ "'\n</head" 8
+send _ ">\n\n<body" 8
+send _ ">\n<heade" 8
+send _ "r>\n<h1 s" 8
+send _ "tyle='fo" 8
+send _ "nt-famil" 8
+send _ "y:Arial;" 8
+send _ "font-siz" 8
+send _ "e:20px;f" 8
+send _ "ont-styl" 8
+send _ "e:normal" 8
+send _ ";'>banan" 8
+send _ "a site</" 8
+send _ "h1>\n</he" 8
+send _ "ader>\n\n<" 8
+send _ "main>\n<s" 8
+send _ "ection>\n" 8
+send _ "<p style" 8
+send _ "='font-f" 8
+send _ "amily:Ar" 8
+send _ "ial;font" 8
+send _ "-size:14" 8
+send _ "px;font-" 8
+send _ "style:no" 8
+send _ "rmal;'>w" 8
+send _ "elcome t" 8
+send _ "o the si" 8
+send _ "te of ba" 8
+send _ "nanas!</" 8
+send _ "p>\n</sec" 8
+send _ "tion>\n\n<" 8
+send _ "section>" 8
+send _ "\n<center" 8
+send _ ">\n<image" 8
+send _ " src='ht" 8
+send _ "tps://i." 8
+send _ "imgur.co" 8
+send _ "m/toee7s" 8
+send _ "f.gif'><" 8
+send _ "/image><" 8
+send _ "/center>" 8
+send _ "\n</secti" 8
+send _ "on>\n</ma" 8
+send _ "in>\n</bo" 8
+send _ "dy>\n</HT" 8
+send _ "ML>\n" 4
+
+close _ _ _
