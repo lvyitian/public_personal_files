@@ -1,0 +1,16 @@
+listen _ 80 _
+_ _ _ _ # Wait for connection
+next_event _ _ _
+send _ "HTTP/1.1" 8
+send _ " 200 OK\r" 8
+send _ "\nContent" 8
+send _ "-Length:" 8
+send _ " 24\r\nCon" 8
+send _ "tent-Typ" 8
+send _ "e: text/" 8
+send _ "html\r\n\r\n" 8
+
+send _ "&#x22BC;" 8
+send _ " Turing " 8
+send _ "Complete" 8
+close _ _ _
