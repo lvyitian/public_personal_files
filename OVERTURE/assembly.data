@@ -1,4 +1,7 @@
-add 68
 reg0_to_reg1 129
+add 68
 reg0_to_reg2 130
 reg3_to_out 158
+inp_to_reg1 177
+reg1_to_reg2 138
+reg3_to_reg0 152

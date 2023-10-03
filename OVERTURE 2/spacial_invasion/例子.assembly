@@ -2,5 +2,26 @@
 label my_label
 # 如下定义常数
 const PI 3
+const left 0
+const forward 1
+const right 2
+const skip 3
+const interact 4 #Enter
+const lazer 5 #Tab
 # 此外，我们还推荐你
 # 看一看手册的“汇编”页面
+label start
+left
+reg0_to_out
+forward
+reg0_to_out
+reg0_to_out
+right
+reg0_to_out
+forward
+reg0_to_out
+left
+reg0_to_out
+
+#a
+#jmp

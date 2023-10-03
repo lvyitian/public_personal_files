@@ -10,18 +10,18 @@ module RegisterPlus (clk, rst, \å_____ , \ä___________ , \ä_____ , \å___________
   output  wire [7:0] \å___________ ;
   output  wire [7:0] Output;
 
-  TC_Register # (.UUID(64'd1 ^ UUID), .BIT_WIDTH(64'd8)) Register8_0 (.clk(clk), .rst(rst), .load(wire_2), .save(wire_4), .in(wire_0), .out(wire_3));
-  TC_Constant # (.UUID(64'd2 ^ UUID), .BIT_WIDTH(64'd1), .value(1'd1)) On_1 (.out(wire_2));
-  TC_Switch # (.UUID(64'd3587491547824661070 ^ UUID), .BIT_WIDTH(64'd8)) Output8z_2 (.en(wire_1), .in(wire_3), .out(Output));
+  TC_Register # (.UUID(64'd1 ^ UUID), .BIT_WIDTH(64'd8)) Register8_0 (.clk(clk), .rst(rst), .load(wire_3), .save(wire_1), .in(wire_4), .out(wire_0));
+  TC_Constant # (.UUID(64'd2 ^ UUID), .BIT_WIDTH(64'd1), .value(1'd1)) On_1 (.out(wire_3));
+  TC_Switch # (.UUID(64'd3587491547824661070 ^ UUID), .BIT_WIDTH(64'd8)) Output8z_2 (.en(wire_2), .in(wire_0), .out(Output));
 
   wire [7:0] wire_0;
-  assign wire_0 = \ä___________ ;
+  assign \å___________  = wire_0;
   wire [0:0] wire_1;
-  assign wire_1 = \å_____ ;
+  assign wire_1 = \ä_____ ;
   wire [0:0] wire_2;
-  wire [7:0] wire_3;
-  assign \å___________  = wire_3;
-  wire [0:0] wire_4;
-  assign wire_4 = \ä_____ ;
+  assign wire_2 = \å_____ ;
+  wire [0:0] wire_3;
+  wire [7:0] wire_4;
+  assign wire_4 = \ä___________ ;
 
 endmodule
