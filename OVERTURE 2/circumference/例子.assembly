@@ -1,0 +1,19 @@
+# 注释以 # 开头
+# 示例代码：计算 1 + 1
+
+inp_to_reg1
+reg1_to_reg2
+add
+reg3_to_reg0
+reg0_to_reg2
+add
+reg3_to_reg0
+reg0_to_reg2
+add
+reg3_to_reg0
+reg0_to_reg2
+add
+reg3_to_reg0
+reg0_to_reg2
+add
+reg3_to_out
