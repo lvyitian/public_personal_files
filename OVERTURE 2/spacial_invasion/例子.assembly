@@ -8,20 +8,64 @@ const right 2
 const skip 3
 const interact 4 #Enter
 const lazer 5 #Tab
+const monster 33
 # 此外，我们还推荐你
 # 看一看手册的“汇编”页面
 label start
-left
-reg0_to_out
-forward
-reg0_to_out
-reg0_to_out
 right
 reg0_to_out
 forward
 reg0_to_out
+reg0_to_out
 left
 reg0_to_out
-
-#a
-#jmp
+forward
+reg0_to_out
+reg0_to_out
+reg0_to_out
+reg0_to_out
+reg0_to_out
+right
+reg0_to_out
+reg0_to_reg4
+wait
+jmp
+label shot
+lazer
+reg0_to_out
+reg0_to_out
+reg0_to_out
+reg0_to_out
+turn
+jmp
+label turn
+reg4_to_reg3
+turn_right
+ifeq0
+label turn_left
+left
+reg0_to_reg4
+turn_do
+jmp
+label turn_right
+right
+reg0_to_reg4
+turn_do
+jmp
+label turn_do
+reg4_to_reg0
+reg0_to_out
+reg0_to_out
+wait
+jmp
+label wait
+skip
+reg0_to_out
+inp_to_reg1
+monster
+reg0_to_reg2
+sub
+shot
+ifeq0
+wait
+jmp

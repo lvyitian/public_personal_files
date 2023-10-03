@@ -1,0 +1,5 @@
+inp_to_reg1
+3
+reg0_to_reg2
+and
+reg3_to_out

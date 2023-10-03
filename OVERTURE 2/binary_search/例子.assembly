@@ -4,3 +4,22 @@ label my_label
 const PI 3
 # 此外，我们还推荐你
 # 看一看手册的“汇编”页面
+label start
+63
+reg0_to_reg5
+1
+reg0_to_reg2
+label sub_loop
+reg5_to_out
+inp_to_reg4
+reg5_to_reg1
+sub
+reg3_to_reg5
+reg4_to_reg3
+sub_loop
+ifgt0
+reg5_to_reg1
+add
+reg1_to_reg5
+sub_loop
+jmp

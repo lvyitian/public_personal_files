@@ -1,0 +1,42 @@
+const left 0
+const forward 1
+const right 2
+const skip 3
+const interact 4 #Enter
+const lazer 5 #Tab
+label main
+4 reg0_to_reg5
+go_forward jmp
+8 reg0_to_reg5
+turn_left jmp
+inp_to_reg1
+1
+reg0_to_reg2
+sub
+8 reg0_to_reg5
+turn_right ifeq0
+20 reg0_to_reg5
+do_interaction jmp
+main jmp
+63
+jmp
+label go_forward
+forward
+reg0_to_out
+reg5_to_reg0
+jmp
+label turn_left
+left
+reg0_to_out
+reg5_to_reg0
+jmp
+label turn_right
+right
+reg0_to_out
+reg5_to_reg0
+jmp
+label do_interaction
+interact
+reg0_to_out
+reg5_to_reg0
+jmp
