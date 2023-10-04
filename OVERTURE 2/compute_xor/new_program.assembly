@@ -1,0 +1,13 @@
+inp_to_reg1
+inp_to_reg2
+or
+reg3_to_reg4
+and
+reg3_to_reg5
+reg5_to_reg1
+0 reg0_to_reg2
+nor
+reg3_to_reg1
+reg4_to_reg2
+and
+reg3_to_out

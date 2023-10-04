@@ -21,8 +21,14 @@ reg5_to_out 174
 ifle0 195
 reg0_to_reg4 132
 reg3_to_out 158
+reg5_to_reg0 168
 reg3_to_reg0 152
 sub 69
 reg0_to_reg5 133
 inp_to_reg4 180
-reg5_to_reg0 168
+inp_to_reg2 178
+or 64
+reg3_to_reg4 156
+reg4_to_reg2 162
+nor 66
+reg3_to_reg1 153
