@@ -1,0 +1,12 @@
+addi2 inp 0 reg0
+addi2 inp 0 reg1
+addi 0 0 reg3
+label sub_start
+addi2 reg3 1 reg3
+iflt reg0 reg1 skip_sub
+sub reg0 reg1 reg0
+ifeqi 0 0 sub_start
+label skip_sub
+subi2 reg3 1 reg3
+addi2 reg3 0 out
+addi2 reg0 0 out
