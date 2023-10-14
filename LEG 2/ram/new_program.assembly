@@ -1,0 +1,11 @@
+addi 32 0 reg0
+label read_start
+addi2 inp 0 mem
+addi2 memptr 1 memptr
+subi2 reg0 1 reg0
+ifgei2 reg0 1 read_start
+addi 0 0 memptr
+label write_start
+addi2 mem 0 out
+addi2 memptr 1 memptr
+iflti2 reg0 32 write_start

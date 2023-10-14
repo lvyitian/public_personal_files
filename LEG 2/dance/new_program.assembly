@@ -1,0 +1,10 @@
+addi2 inp 0 reg0
+label loop
+shri2 reg0 1 reg1
+xor reg0 reg1 reg1
+shli2 reg1 1 reg2
+xor reg1 reg2 reg2
+shri2 reg2 2 reg0
+xor reg2 reg0 reg0
+modi2 reg0 4 out
+ifeqi 0 0 loop

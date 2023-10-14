@@ -1,0 +1,8 @@
+label main
+addi2 inp 0 reg0
+ifeqi2 reg0 0 pop
+addi2 reg0 0 stack
+ifeqi 0 0 main
+label pop
+addi2 stack 0 out
+ifeqi 0 0 main

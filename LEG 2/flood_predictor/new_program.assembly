@@ -1,0 +1,70 @@
+const height mem
+const height_index memptr
+const sum reg5
+const i reg0
+const max_left reg1
+const j reg2
+const max_right reg3
+const min reg4
+label input_loop
+addi2 inp 0 height
+addi2 height_index 1 height_index 
+iflti2 height_index 16 input_loop
+subi2 height_index 1 height_index
+addi 0 0 sum #result
+addi 1 0 i
+label outer_loop
+ifgei2 i 15 skip_outer_loop
+addi 0 0 max_left
+subi2 i 1 j
+label inner_loop_1
+ifltsi2 j 0 skip_inner_loop_1
+addi2 j 0 height_index
+ifle height max_left skip_if_1
+addi2 height 0 max_left
+label skip_if_1
+subi2 j 1 j
+ifeqi 0 0 inner_loop_1
+label skip_inner_loop_1
+addi 0 0 max_right
+addi2 i 1 j
+label inner_loop_2
+ifgei2 j 16 skip_inner_loop_2
+addi2 j 0 height_index
+ifle height max_right skip_if_2
+addi2 height 0 max_right
+label skip_if_2
+addi2 j 1 j
+ifeqi 0 0 inner_loop_2
+label skip_inner_loop_2
+addi2 reg0 0 stack
+addi2 reg1 0 stack
+addi return_addr 0 stack
+addi2 max_right 0 stack
+addi2 max_left 0 stack
+ifeqi 0 0 func_min
+label return_addr
+addi2 stack 0 reg1
+addi2 stack 0 reg0
+addi2 i 0 height_index
+ifle min height skip_if_3
+addi2 reg4 0 stack
+sub min height reg4
+add sum reg4 sum
+addi2 stack 0 reg4
+label skip_if_3
+addi2 i 1 i
+ifeqi 0 0 outer_loop
+label skip_outer_loop
+addi2 sum 0 out
+ifeqi 0 0 235
+label func_min
+addi2 stack 0 reg0
+addi2 stack 0 reg1
+iflt reg0 reg1 return_reg0
+addi2 reg1 0 min
+ifeqi 0 0 return
+label return_reg0
+addi2 reg0 0 min
+label return
+addi2 stack 0 pc

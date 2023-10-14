@@ -1,0 +1,7 @@
+addi2 pc 8 stack
+ifeqi 0 0 test
+addi2 233 0 out
+ifeqi 0 0 63 
+label test
+addi2 6 0 out
+addi2 stack 0 pc

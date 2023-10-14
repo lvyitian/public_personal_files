@@ -1,0 +1,58 @@
+#EntryPoint
+addi2 inp 0 reg0
+addi2 inp 0 reg1
+addi2 inp 0 reg2
+addi2 inp 0 reg3
+addi 230 0 stack
+addi2 reg3 0 stack
+addi2 reg2 0 stack
+addi2 reg1 0 stack
+addi2 reg0 0 stack
+label move
+addi2 stack 0 reg0
+addi2 stack 0 reg1
+addi2 stack 0 reg2
+addi2 stack 0 reg3
+ifnei2 reg0 0 if_is_not_zero
+addi2 reg1 0 out
+addi 5 0 out
+addi2 reg2 0 out
+addi 5 0 out
+ifeqi 0 0 skip_if_is_not_zero
+label if_is_not_zero
+addi2 reg3 0 stack
+addi2 reg2 0 stack
+addi2 reg1 0 stack
+addi2 reg0 0 stack
+addi 116 0 stack #ret addr
+addi2 reg2 0 stack
+addi2 reg3 0 stack
+addi2 reg1 0 stack
+subi2 reg0 1 stack
+ifeqi 0 0 move
+addi2 stack 0 reg0
+addi2 stack 0 reg1
+addi2 stack 0 reg2
+addi2 stack 0 reg3
+
+addi2 reg1 0 out
+addi 5 0 out
+addi2 reg2 0 out
+addi 5 0 out
+
+addi2 reg3 0 stack
+addi2 reg2 0 stack
+addi2 reg1 0 stack
+addi2 reg0 0 stack
+addi 188 0 stack #ret addr
+addi2 reg1 0 stack
+addi2 reg2 0 stack
+addi2 reg3 0 stack
+subi2 reg0 1 stack
+ifeqi 0 0 move
+addi2 stack 0 reg0
+addi2 stack 0 reg1
+addi2 stack 0 reg2
+addi2 stack 0 reg3
+label skip_if_is_not_zero
+addi2 stack 0 pc

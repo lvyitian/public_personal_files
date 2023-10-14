@@ -1,0 +1,8 @@
+label input_and_capitalize
+addi2 inp 0 reg0
+subi2 reg0 32 out
+label direct_out
+addi2 inp 0 reg0
+addi2 reg0 0 out
+ifnei2 reg0 32 direct_out
+ifeqi 0 0 input_and_capitalize

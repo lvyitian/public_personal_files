@@ -1,0 +1,32 @@
+addi 15 0 reg0
+label input
+addi2 inp 0 mem
+subi2 reg0 1 reg0
+addi2 memptr 1 memptr
+ifgti2 reg0 0 input
+addi 0 0 reg1
+label outer_loop
+ifgei2 reg1 15 skip_outer_loop
+addi 14 0 reg2
+label inner_loop
+ifle reg2 reg1 skip_inner_loop
+subi2 reg2 1 memptr
+addi2 mem 0 reg3
+addi2 memptr 1 memptr
+addi2 mem 0 reg4
+ifge reg3 reg4 skip_swap
+addi2 reg3 0 mem
+subi2 memptr 1 memptr
+addi2 reg4 0 mem
+label skip_swap
+subi2 reg2 1 reg2
+ifeqi 0 0 inner_loop
+label skip_inner_loop
+addi2 reg1 1 reg1
+ifeqi 0 0 outer_loop
+label skip_outer_loop
+addi 14 0 memptr
+label print
+addi2 mem 0 out
+subi2 memptr 1 memptr
+ifgei2 memptr 0 print

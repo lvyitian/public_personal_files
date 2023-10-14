@@ -1,0 +1,33 @@
+const left 0
+const forward 1
+const right 2
+const skip 3
+const interact 4 #Enter
+const lazer 5 #Tab
+ifnei2 inp 0 wait_loop
+addi left 0 out
+addi forward 0 out
+addi left 0 out
+label forward_loop
+addi forward 0 out
+ifeqi2 inp 0 forward_loop
+addi left 0 out
+addi forward 0 out
+addi right 0 out
+addi forward 0 out
+label wait_loop
+ifnei2 inp 92 skip_wait_loop
+addi skip 0 out
+ifeqi 0 0 wait_loop
+label skip_wait_loop
+addi2 inp 0 memptr
+ifnei2 mem 0 press_button
+addi 1 0 mem
+label skip_and_continue
+addi skip 0 out
+ifeqi 0 0 wait_loop
+label press_button
+addi right 0 out
+addi interact 0 out
+addi left 0 out
+ifeqi 0 0 skip_and_continue

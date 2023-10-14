@@ -1,0 +1,3 @@
+label loop
+addi 13 0 stack
+ifeqi 0 0 loop
