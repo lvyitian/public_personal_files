@@ -7,12 +7,14 @@ ifeqi2 96
 muli 201
 ifne 33
 mul 9
+xori2 69
 divi1 138
 ifgei2 101
 ifgesi 233
 reg5 5
 add 0
 stack 10
+xori1 133
 ifgei 229
 modi 203
 iflei2 99
@@ -22,6 +24,7 @@ ifgt 36
 ifgti 228
 addi1 128
 reg2 2
+xori 197
 reg1 1
 ifge 37
 sub 1
@@ -55,6 +58,7 @@ ifgei1 165
 reg4 4
 addi 192
 ifgti2 100
+xor 5
 reg0 0
 out 7
 pc 6
@@ -68,3 +72,15 @@ ifges 41
 ifeqi1 160
 modi1 139
 divi 202
+shl 6
+shr 7
+sar 8
+sari 200
+sari1 136
+sari2 72
+shli 198
+shli1 134
+shli2 70
+shri 199
+shri1 135
+shri2 71
