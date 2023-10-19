@@ -24,12 +24,16 @@ module TC_Register (clk, rst, load, save, in, out);
             out <= {BIT_WIDTH{1'b0}};
         reset <= rst;
     end*/
-    always @ (negedge clk) begin
+    always @ (posedge clk) begin
+        reset <= rst;
+    end
+    always @ (posedge clk) begin
         if (load)
             out <= value;
         else
             out <= {BIT_WIDTH{1'b0}};
-        reset <= rst;
+    end
+    always @ (negedge clk) begin
         if (reset)
             value <= {BIT_WIDTH{1'b0}};
         else if (save)
