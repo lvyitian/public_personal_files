@@ -1,0 +1,49 @@
+c控制流语句：
+if(condition) condition：条件 意思是如果condition的值不为0，就执行后面的代码句或代码块（一个;是一个代码句，一个{}是一个代码块）
+else 跟在if后面，后面跟条件不成立（condition为0）时执行的代码句或代码块
+switch(value) 根据value的值选择对应的分支进行执行
+case a: 当value的值等于a时，执行后面的语句
+break 如果不写break，switch会继续执行，也就是相当于以或连接了后面的case，如case 1:case 2:的意思就是value等于1或2，写了break就是独立的两个条件，如果前一个满足了就直接跳出switch了，break在循环中则是跳出循环（让循环终止），后面可跟标签（label）用于指定跳出位置（多用于嵌套循环，c是用goto，java是用break/continue）
+label_name: 定义（声明）一个叫label_name的标签（label），标签相当于给这个程序的这个位置取了个名字，可以用来代表指令地址
+continue 结束本轮循环开始下一轮循环
+a?b:c 三目运算符，如果a的值不为0，整个表达式的值为b，否则为c
+while(condition) 与if类似，当condition不为0时循环，直到遇到break或回到这里时condition变为0
+do{...}while(condition); 当condition不为0时循环，区别是第一次循环是无条件的（即至少执行一次）
+for(init;condition;delta) init是初始化语句，在旧c标准里init里是不能声明变量的，在新c标准或cpp里可以，condition是循环条件（同while），delta是每次循环体执行完毕后执行的语句，一般用来对循环条件里的相关变量进行赋值（即改变循环条件里的相关变量的值），执行顺序：init->condition->循环体->delta->condition->循环体->delta->...
+goto label_name 跳转到label_name标签的位置
+
+
+常见内建数据类型：
+char 名字取不好，叫字符，其实应该叫字节，它存的是字符内码，内存占用：1字节 有符号 数据范围：-2^7到2^7-1
+short 2字节整数，即短整数 内存占用：2字节 有符号 数据范围：-2^15到2^15-1
+int 4字节整数 内存占用：4字节 有符号 数据范围：-2^31到2^31-1
+long 半长整数，在windows和linux的编译器上是4字节，在macos的apple-clang编译器上是8字节 内存占用：4字节或8字节 有符号 数据范围：-2^31到2^31-1或-2^63到2^63-1
+long long 长整数 内存占用：8字节 有符号 数据范围：-2^63到2^63-1
+float 单精度浮点数 内存占用：4字节 有符号 数据范围比int和unsigned int都大
+double 双精度浮点数 内存占用：8字节 有符号 数据范围比long long和unsigned long long都大
+long double 双精度浮点数（高精度模式） 内存占用：8字节 有符号 比double更精确（不保证最后3位的精确性）
+unsigned 无符号关键字，只能用于整数类型之前（char也是整数类型），将符号位看作数据位，可以增大类型所能存储的最大值，但是最小值会变成0，单独的unsigned就是unsigned int
+signed 有符号关键字，类似于无符号关键字，单独的signed就是int
+size_t 无符号，大小取决于目标架构，如果目标架构是32位，就是unsigned int，如果目标架构是64位，就是unsigned long long
+* 指针类型，指针类型用于存储内存地址
+& 也是指针类型，区别是使用时会自动解引用
+
+
+基本语法：
+返回值类型 函数名(参数类型 参数名,参数类型 参数名,...){...}
+typedef 类型定义 类型别名;
+typedef 返回值类型 (*函数指针类型名)(参数类型 可选的参数名,...);
+struct 结构体名{字段类型 字段名1,字段名2,...;字段类型 字段名;...}可选的变量名;
+union 联合体名{同结构体}可选的变量名;
+
+其它关键字：
+const 用于定义编译时常量
+restrict 用于启用可能会破坏结果的激进优化（只有c才有这个关键字，cpp把它扬了）
+volatile 阻止数据缓存，用于多线程编程
+
+预编译器指令：
+#include 用于引入头文件
+#define 用于定义宏
+#undef 取消宏定义
+#ifdef 如果定义了某个宏
+#endif 结束如果
