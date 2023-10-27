@@ -12,6 +12,7 @@ while(condition) 与if类似，当condition不为0时循环，直到遇到break�
 do{...}while(condition); 当condition不为0时循环，区别是第一次循环是无条件的（即至少执行一次）
 for(init;condition;delta) init是初始化语句，在旧c标准里init里是不能声明变量的，在新c标准或cpp里可以，condition是循环条件（同while），delta是每次循环体执行完毕后执行的语句，一般用来对循环条件里的相关变量进行赋值（即改变循环条件里的相关变量的值），执行顺序：init->condition->循环体->delta->condition->循环体->delta->...
 goto label_name 跳转到label_name标签的位置
+return [返回值] 令函数执行结束并返回结果，返回类型为void则无返回值
 
 
 常见内建数据类型：
@@ -28,6 +29,7 @@ signed 有符号关键字，类似于无符号关键字，单独的signed就是i
 size_t 无符号，大小取决于目标架构，如果目标架构是32位，就是unsigned int，如果目标架构是64位，就是unsigned long long
 * 指针类型，指针类型用于存储内存地址
 & 也是指针类型，区别是使用时会自动解引用
+void 空，代表没有或未知
 
 
 基本语法：
