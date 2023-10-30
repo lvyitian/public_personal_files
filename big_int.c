@@ -3,8 +3,10 @@
 typedef unsigned char byte;
 typedef byte bit;
 void full_adder(bit cin,bit a,bit b,bit* cout,bit* result){
-  *result=(cin^a^b)&1;
-  *cout=(cin&a|cin&b|a&b)&1;
+  if(result)
+    *result=(cin^a^b)&1;
+  if(cout)
+    *cout=(cin&a|cin&b|a&b)&1;
 }
 void adder8(bit cin,byte a,byte b,bit* cout, byte* result){
   bit bit1_cout;
@@ -31,8 +33,14 @@ void adder8(bit cin,byte a,byte b,bit* cout, byte* result){
   bit bit8_cout;
   bit bit8;
   full_adder(bit7_cout,(a&0b10000000)>>7,(b&0b10000000)>>7,&bit8_cout,&bit8);
-  *result=bit1|bit2<<1|bit3<<2|bit4<<3|bit5<<4|bit6<<5|bit7<<6|bit8<<7; 
-  *cout=bit8_cout;
+  if(result)
+    *result=bit1|bit2<<1|bit3<<2|bit4<<3|bit5<<4|bit6<<5|bit7<<6|bit8<<7; 
+  if(cout)
+    *cout=bit8_cout;
+}
+void mul8(byte a,byte b,bit* cout,byte* result)
+{
+  bit a_bit1,a_bit2,a_bit3,a_bit4,a_bit5,a_bit6,a_bit7,a_bit8,b_bit1,b_bit2,b_bit3,b_bit4,b_bit5,b_bit6,b_bit7,b_bit8;
 }
 int main(int argc,char** argv){
   bit cout;
