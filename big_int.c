@@ -40,6 +40,14 @@ void adder8(bit cin,byte a,byte b,bit* cout, byte* result){
   if(cout)
     *cout=bit8_cout;
 }
+void adder16(bit cin,unsigned short a,unsigned short b,bit* cout, unsigned short* result){
+  bit tmp1_cout;
+  byte tmp1_result;
+  adder8(cin,a<<8>>8,b<<8>>8,&tmp1_cout,&tmp1_result);
+  byte tmp2_result;
+  adder8(tmp1_cout,a>>8,b>>8,&cout,&tmp2_result);
+  if(result) *result=tmp1_result|(tmp2_result<<8);
+}
 void mul8(byte a,byte b,bit* cout,byte* result)
 {
   bit res_cout=0;
@@ -102,11 +110,13 @@ void neg8(byte a,byte* result){
 }
 int main(int argc,char** argv){
   bit cout;
-  byte result;
+  //byte result;
   //adder8(0,10,27,&cout,&result);
   //mul8(7,17,&cout,&result);
-  cout=0;
-  neg8(27,&result);
+  /*cout=0;
+  neg8(27,&result);*/
+  unsigned short result;
+  adder16(0,31272,711,&cout,&result);
   printf("cout: %d  result: %d\n",(int)cout,(int)result);
   return 0;
 }
