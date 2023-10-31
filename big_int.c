@@ -2,6 +2,12 @@
 #include<stdlib.h>
 #undef NULL
 #define NULL 0
+#undef BOOL
+#define BOOL int
+#undef TRUE
+#define TRUE 1
+#undef FALSE
+#define FALSE 0
 typedef unsigned char byte;
 typedef byte bit;
 void full_adder(bit cin,bit a,bit b,bit* cout,bit* result){
@@ -107,6 +113,22 @@ void mul8(byte a,byte b,bit* cout,byte* result)
 }
 void neg8(byte a,byte* result){
   adder8(0,~a,1,NULL,result);
+}
+BOOL div8(byte a,byte b,byte* rem,byte* result){
+if(!b) return FALSE;
+byte calc_rem=0;
+byte res=a;
+if(b!=1){
+res=0;
+while(a>=b){
+res++;
+a-=b;
+} 
+calc_rem=a;
+}
+if(rem) *rem=calc_rem;
+if(result) *result=res;
+return TRUE;
 }
 int main(int argc,char** argv){
   bit cout;
