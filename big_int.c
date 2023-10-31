@@ -246,7 +246,8 @@ int main(int argc,char** argv){
   //mul16(27,76,&cout,&result);
   unsigned long long a_bits=read_num_ptr_to_bits(&a,64);
   unsigned long long b_bits=read_num_ptr_to_bits(&b,64);
-  adder(0,a_bits,b_bits,sizeof(a)*8,&cout,&result);
+  //adder(0,a_bits,b_bits,sizeof(a)*8,&cout,&result);
+  shl_and_assign(a_bits,result,64,1);
   
   printf("cout: %d  result: %llu\n",(int)cout,bits_to_ull(result));
   return 0;
