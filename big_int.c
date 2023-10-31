@@ -150,11 +150,29 @@ void sar(bit* a,size_t bitwidth,size_t bitnum){
   for(size_t i=0;i<bitwidth;i++) a[i]=res[i];
   free(res);
 }
-void or(bit* a,bit* b,size_t bitwidth){
+void or_and_assign(bit* a,bit* b,bit* assignee,size_t bitwidth){
+  for(size_t i=0;i<bitwidth;i++) assignee[i]=a[i]|b[i];
+}
+bit* byte_to_bits(byte b){
+  bit* res=(bit*)malloc(8*sizeof(bit));
+  for(size_t i=0;i<8;i++) res[i]=0;
+  res[0]=b&0b1;
+  res[1]=(b&0b10)>>1;
+  res[2]=(b&0b100)>>2;
+  res[3]=(b&0b1000)>>3;
+  res[4]=(b&0b10000)>>4;
+  res[5]=(b&0b100000)>>5;
+  res[6]=(b&0b1000000)>>6;
+  res[7]=(b&0b10000000)>>7;
+  return res;
+}
+bit* read_num_ptr_to_bits(void* num_ptr,size_t bitwidth)
+{
+  unsigned long long num=*((unsigned long long*)num_ptr);
   bit* res=(bit*)malloc(bitwidth*sizeof(bit));
   for(size_t i=0;i<bitwidth;i++) res[i]=0;
-
-  free(res);
+  for(size_t i=0;i<bitwidth;i++){res[i]=num&0b1;num>>=1;}\
+  return res;
 }
 void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   bit last_cout=cin;
@@ -163,7 +181,9 @@ void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   byte last_result;
   for(size_t i=0;i<bitwidth;i+=8){
     adder8(last_cout,sar(shl(a,bitwidth-8),bitwidth-8),sar(shl(b,bitwidth-8),bitwidth-8),&last_cout,&last_result);
-     
+    bit* last_result_bytes=byte_to_bits(last_result);
+    or_and_assign(calc_result,last_result_bytes,calc_result,bitwidth);
+    free(last_result_bytes);
   }
   byte tmp1_result;
   adder8(cin,a<<8>>8,b<<8>>8,&tmp1_cout,&tmp1_result);
