@@ -148,8 +148,10 @@ void sar(bit* a,size_t bitwidth,size_t bitnum){
   for(long long i=bitwidth-1;i>=0;i--) if((long long)(i-(long long)bitnum)>=0) res[(long long)(i-(long long)bitnum)]=a[i];
   for(size_t i=0;i<bitwidth;i++) a[i]=res[i];
 }
-void adder16(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout, unsigned short* result){
+void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   bit tmp1_cout;
+  bit* result=(bit*)malloc(bitwidth*sizeof(bit));
+  for(size_t i=0;i<bitwidth;i++) result[i]=0;
   byte tmp1_result;
   adder8(cin,a<<8>>8,b<<8>>8,&tmp1_cout,&tmp1_result);
   byte tmp2_result;
