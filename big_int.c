@@ -153,9 +153,10 @@ void sar_and_assign(bit* a,bit* assignee,size_t bitwidth,size_t bitnum){
 void or_and_assign(bit* a,bit* b,bit* assignee,size_t bitwidth){
   for(size_t i=0;i<bitwidth;i++) assignee[i]=a[i]|b[i];
 }
-bit* byte_to_bits(byte b){
-  bit* res=(bit*)malloc(8*sizeof(bit));
-  for(size_t i=0;i<8;i++) res[i]=0;
+bit* byte_to_bits(byte b,size_t bitwidth){
+  if(bitwidth<8) bitwidth=8;
+  bit* res=(bit*)malloc(bitwidth*sizeof(bit));
+  for(size_t i=0;i<bitwidth;i++) res[i]=0;
   res[0]=b&0b1;
   res[1]=(b&0b10)>>1;
   res[2]=(b&0b100)>>2;
@@ -201,7 +202,7 @@ void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
     shl_and_assign(b,b_buf2,bitwidth,bitwidth-8);
     sar_and_assign(b_buf2,b_buf,bitwidth,bitwidth-8);
     adder8(last_cout,bits_to_byte(a_buf),bits_to_byte(b_buf),&last_cout,&last_result);
-    bit* last_result_bytes=byte_to_bits(last_result);
+    bit* last_result_bytes=byte_to_bits(last_result,bitwidth);
     or_and_assign(calc_result,last_result_bytes,calc_result,bitwidth);
     free(last_result_bytes);
     sar_and_assign(a,a_buf,bitwidth,8);
@@ -250,8 +251,8 @@ int main(int argc,char** argv){
   //mul16(27,76,&cout,&result);
   unsigned long long a_bits=read_num_ptr_to_bits(&a,64);
   unsigned long long b_bits=read_num_ptr_to_bits(&b,64);
-  //adder(0,a_bits,b_bits,sizeof(a)*8,&cout,&result);
-  shl_and_assign(a_bits,result,64,1);
+  adder(0,a_bits,b_bits,sizeof(a)*8,&cout,&result);
+  //shl_and_assign(a_bits,result,64,1);
   
   printf("cout: %d  result: %llu\n",(int)cout,bits_to_ull(result));
   return 0;
