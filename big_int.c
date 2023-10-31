@@ -136,6 +136,26 @@ void mul16(unsigned short a,unsigned short b,bit* cout,unsigned short* result){
   if(cout) *cout=res_cout;
   if(result) *result=last_res;
 }
+void shl(bit* a,size_t bitwidth,size_t bitnum){
+  bit* res=(bit*)malloc(bitwidth*sizeof(bit));
+  for(size_t i=0;i<bitwidth;i++) res[i]=0;
+  for(long long i=bitwidth-1;i>=0;i--) if(i+bitnum<bitwidth) res[i+bitnum]=a[i];
+  for(size_t i=0;i<bitwidth;i++) a[i]=res[i];
+}
+void sar(bit* a,size_t bitwidth,size_t bitnum){
+  bit* res=(bit*)malloc(bitwidth*sizeof(bit));
+  for(size_t i=0;i<bitwidth;i++) res[i]=0;
+  for(long long i=bitwidth-1;i>=0;i--) if((long long)(i-(long long)bitnum)>=0) res[(long long)(i-(long long)bitnum)]=a[i];
+  for(size_t i=0;i<bitwidth;i++) a[i]=res[i];
+}
+void adder16(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout, unsigned short* result){
+  bit tmp1_cout;
+  byte tmp1_result;
+  adder8(cin,a<<8>>8,b<<8>>8,&tmp1_cout,&tmp1_result);
+  byte tmp2_result;
+  adder8(tmp1_cout,a>>8,b>>8,&cout,&tmp2_result);
+  if(result) *result=tmp1_result|(tmp2_result<<8);
+}
 void neg8(byte a,byte* result){
   adder8(0,~a,1,NULL,result);
 }
