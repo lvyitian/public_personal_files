@@ -150,19 +150,27 @@ void sar(bit* a,size_t bitwidth,size_t bitnum){
   for(size_t i=0;i<bitwidth;i++) a[i]=res[i];
   free(res);
 }
+void or(bit* a,bit* b,size_t bitwidth){
+  bit* res=(bit*)malloc(bitwidth*sizeof(bit));
+  for(size_t i=0;i<bitwidth;i++) res[i]=0;
+
+  free(res);
+}
 void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
-  bit tmp1_cout;
+  bit last_cout=cin;
   bit* calc_result=(bit*)malloc(bitwidth*sizeof(bit));
   for(size_t i=0;i<bitwidth;i++) calc_result[i]=0;
   byte last_result;
   for(size_t i=0;i<bitwidth;i+=8){
-    
+    adder8(last_cout,sar(shl(a,bitwidth-8),bitwidth-8),sar(shl(b,bitwidth-8),bitwidth-8),&last_cout,&last_result);
+     
   }
   byte tmp1_result;
   adder8(cin,a<<8>>8,b<<8>>8,&tmp1_cout,&tmp1_result);
   byte tmp2_result;
   adder8(tmp1_cout,a>>8,b>>8,&cout,&tmp2_result);
   if(result) *result=calc_result/*tmp1_result|(tmp2_result<<8)*/;
+  if(cout) *cout=last_cout;
 }
 void neg8(byte a,byte* result){
   adder8(0,~a,1,NULL,result);
