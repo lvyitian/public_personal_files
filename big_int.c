@@ -51,7 +51,7 @@ void adder16(bit cin,unsigned short a,unsigned short b,bit* cout, unsigned short
   byte tmp1_result;
   adder8(cin,a<<8>>8,b<<8>>8,&tmp1_cout,&tmp1_result);
   byte tmp2_result;
-  adder8(tmp1_cout,a>>8,b>>8,&cout,&tmp2_result);
+  adder8(tmp1_cout,a>>8,b>>8,cout,&tmp2_result);
   if(result) *result=tmp1_result|(tmp2_result<<8);
 }
 void mul8(byte a,byte b,bit* cout,byte* result)
@@ -166,6 +166,9 @@ bit* byte_to_bits(byte b){
   res[7]=(b&0b10000000)>>7;
   return res;
 }
+byte bits_to_byte(bit* bits){
+  return bits[0]|bits[1]<<1|bits[2]<<2|bits[3]<<3|bits[4]<<4|bits[5]<<5|bits[6]<<6|bits[7]<<7;
+}
 bit* read_num_ptr_to_bits(void* num_ptr,size_t bitwidth)
 {
   unsigned long long num=*((unsigned long long*)num_ptr);
@@ -173,6 +176,11 @@ bit* read_num_ptr_to_bits(void* num_ptr,size_t bitwidth)
   for(size_t i=0;i<bitwidth;i++) res[i]=0;
   for(size_t i=0;i<bitwidth;i++){res[i]=num&0b1;num>>=1;}\
   return res;
+}
+unsigned long long bits_to_ull(bit* bits){
+    unsigned long long res=0;
+    for(size_t i=0;i<64;i++) res|=bits[i]<<i;
+    return res;
 }
 void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   bit last_cout=cin;
@@ -184,17 +192,17 @@ void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   for(size_t i=0;i<bitwidth;i++) b_buf[i]=0;
   byte last_result;
   for(size_t i=0;i<bitwidth;i+=8){
-    shl(a,a_buf,bitwidth-8);
-    sar(a,a_buf,bitwidth-8);
-    shl(b,b_buf,bitwidth-8);
-    sar(b,b_buf,bitwidth-8);
+    shl_and_assign(a,a_buf,bitwidth,bitwidth-8);
+    sar_and_assign(a,a_buf,bitwidth,bitwidth-8);
+    shl_and_assign(b,b_buf,bitwidth,bitwidth-8);
+    sar_and_assign(b,b_buf,bitwidth,bitwidth-8);
     adder8(last_cout,a_buf,b_buf,&last_cout,&last_result);
     bit* last_result_bytes=byte_to_bits(last_result);
     or_and_assign(calc_result,last_result_bytes,calc_result,bitwidth);
     free(last_result_bytes);
-    sar(a,a_buf,8);
+    sar_and_assign(a,a_buf,bitwidth,8);
     for(size_t i=0;i<bitwidth;i++) a[i]=a_buf[i];
-    sar(b,b_buf,8);
+    sar_and_assign(b,b_buf,bitwidth,8);
     for(size_t i=0;i<bitwidth;i++) b[i]=b_buf[i];
   }
   /*byte tmp1_result;
@@ -230,9 +238,16 @@ int main(int argc,char** argv){
   //mul8(7,17,&cout,&result);
   /*cout=0;
   neg8(27,&result);*/
-  unsigned short result;
+  //unsigned short result;
+  bit* result=(bit*)malloc(64*sizeof(bit));
+  unsigned long long a=233;
+  unsigned long long b=773;
   //adder16(0,31272,711,&cout,&result);
-  mul16(27,76,&cout,&result);
-  printf("cout: %d  result: %d\n",(int)cout,(int)result);
+  //mul16(27,76,&cout,&result);
+  unsigned long long a_bits=read_num_ptr_to_bits(&a,64);
+  unsigned long long b_bits=read_num_ptr_to_bits(&b,64);
+  adder(0,a_bits,b_bits,sizeof(a)*8,&cout,&result);
+  
+  printf("cout: %d  result: %llu\n",(int)cout,bits_to_ull(result));
   return 0;
 }
