@@ -200,7 +200,7 @@ void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
     sar_and_assign(a_buf2,a_buf,bitwidth,bitwidth-8);
     shl_and_assign(b,b_buf2,bitwidth,bitwidth-8);
     sar_and_assign(b_buf2,b_buf,bitwidth,bitwidth-8);
-    adder8(last_cout,a_buf,b_buf,&last_cout,&last_result);
+    adder8(last_cout,bits_to_byte(a_buf),bits_to_byte(b_buf),&last_cout,&last_result);
     bit* last_result_bytes=byte_to_bits(last_result);
     or_and_assign(calc_result,last_result_bytes,calc_result,bitwidth);
     free(last_result_bytes);
