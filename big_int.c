@@ -111,6 +111,28 @@ void mul8(byte a,byte b,bit* cout,byte* result)
   if(cout) *cout=res_cout;
   if(result) *result=add7_res;
 }
+void mul16(unsigned short a,unsigned short b,bit* cout,byte* result){
+  bit res_cout=0;
+  bit a_bits[16];
+  for(size_t i=0;i<16;i++){a_bits[i]=a&0b1;a>>=1;}
+  bit b_bits[16];
+  for(size_t i=0;i<16;i++){b_bits[i]=b&0b1;b>>=1;}
+  unsigned short tmp[16];
+  for(size_t i=0;i<16;i++) tmp[i]=0;
+  for(size_t tmp_index=0;tmp_index<16;tmp_index++){
+  for(size_t i=0;i<16;i++) tmp[tmp_index]|=(a_bits[tmp_index]&b_bits[i])>>i;
+  if(tmp[tmp_index]>>(16-tmp_index)) res_cout=1;
+  tmp[tmp_index]<<=tmp_index;
+  }
+  bit last_cout;
+  byte last_res=tmp[0];
+  for(size_t i=1;i<16;i++){
+    adder16(0,last_res,tmp[i],&last_cout,&last_res);
+    if(last_cout) res_cout=1;
+  }
+  if(cout) *cout=res_cout;
+  if(result) *result=last_res;
+}
 void neg8(byte a,byte* result){
   adder8(0,~a,1,NULL,result);
 }
