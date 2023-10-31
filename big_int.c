@@ -136,19 +136,19 @@ void mul16(unsigned short a,unsigned short b,bit* cout,unsigned short* result){
   if(cout) *cout=res_cout;
   if(result) *result=last_res;
 }
-void shl(bit* a,size_t bitwidth,size_t bitnum){
-  bit* res=(bit*)malloc(bitwidth*sizeof(bit));
-  for(size_t i=0;i<bitwidth;i++) res[i]=0;
-  for(long long i=bitwidth-1;i>=0;i--) if(i+bitnum<bitwidth) res[i+bitnum]=a[i];
-  for(size_t i=0;i<bitwidth;i++) a[i]=res[i];
-  free(res);
+void shl_and_assign(bit* a,bit* assignee,size_t bitwidth,size_t bitnum){
+  /*bit* res=(bit*)malloc(bitwidth*sizeof(bit));*/
+  for(size_t i=0;i<bitwidth;i++) /*res*/assignee[i]=0;
+  for(long long i=bitwidth-1;i>=0;i--) if(i+bitnum<bitwidth) /*res*/assignee[i+bitnum]=a[i];
+  /*for(size_t i=0;i<bitwidth;i++) a[i]=res[i];
+  free(res);*/
 }
-void sar(bit* a,size_t bitwidth,size_t bitnum){
-  bit* res=(bit*)malloc(bitwidth*sizeof(bit));
-  for(size_t i=0;i<bitwidth;i++) res[i]=0;
-  for(long long i=bitwidth-1;i>=0;i--) if((long long)(i-(long long)bitnum)>=0) res[(long long)(i-(long long)bitnum)]=a[i];
-  for(size_t i=0;i<bitwidth;i++) a[i]=res[i];
-  free(res);
+void sar_and_assign(bit* a,bit* assignee,size_t bitwidth,size_t bitnum){
+  /*bit* res=(bit*)malloc(bitwidth*sizeof(bit));*/
+  for(size_t i=0;i<bitwidth;i++) /*res*/assignee[i]=0;
+  for(long long i=bitwidth-1;i>=0;i--) if((long long)(i-(long long)bitnum)>=0) /*res*/assignee[(long long)(i-(long long)bitnum)]=a[i];
+  /*for(size_t i=0;i<bitwidth;i++) a[i]=res[i];
+  free(res);*/
 }
 void or_and_assign(bit* a,bit* b,bit* assignee,size_t bitwidth){
   for(size_t i=0;i<bitwidth;i++) assignee[i]=a[i]|b[i];
@@ -178,17 +178,29 @@ void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   bit last_cout=cin;
   bit* calc_result=(bit*)malloc(bitwidth*sizeof(bit));
   for(size_t i=0;i<bitwidth;i++) calc_result[i]=0;
+  bit* a_buf=(bit*)malloc(bitwidth*sizeof(bit));
+  for(size_t i=0;i<bitwidth;i++) a_buf[i]=0;
+  bit* b_buf=(bit*)malloc(bitwidth*sizeof(bit));
+  for(size_t i=0;i<bitwidth;i++) b_buf[i]=0;
   byte last_result;
   for(size_t i=0;i<bitwidth;i+=8){
-    adder8(last_cout,sar(shl(a,bitwidth-8),bitwidth-8),sar(shl(b,bitwidth-8),bitwidth-8),&last_cout,&last_result);
+    shl(a,a_buf,bitwidth-8);
+    sar(a,a_buf,bitwidth-8);
+    shl(b,b_buf,bitwidth-8);
+    sar(b,b_buf,bitwidth-8);
+    adder8(last_cout,a_buf,b_buf,&last_cout,&last_result);
     bit* last_result_bytes=byte_to_bits(last_result);
     or_and_assign(calc_result,last_result_bytes,calc_result,bitwidth);
     free(last_result_bytes);
+    sar(a,a_buf,8);
+    for(size_t i=0;i<bitwidth;i++) a[i]=a_buf[i];
+    sar(b,b_buf,8);
+    for(size_t i=0;i<bitwidth;i++) b[i]=b_buf[i];
   }
-  byte tmp1_result;
+  /*byte tmp1_result;
   adder8(cin,a<<8>>8,b<<8>>8,&tmp1_cout,&tmp1_result);
   byte tmp2_result;
-  adder8(tmp1_cout,a>>8,b>>8,&cout,&tmp2_result);
+  adder8(tmp1_cout,a>>8,b>>8,&cout,&tmp2_result);*/
   if(result) *result=calc_result/*tmp1_result|(tmp2_result<<8)*/;
   if(cout) *cout=last_cout;
 }
