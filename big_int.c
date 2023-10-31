@@ -97,11 +97,16 @@ void mul8(byte a,byte b,bit* cout,byte* result)
   if(cout) *cout=res_cout;
   if(result) *result=add7_res;
 }
+void neg8(byte a,byte* result){
+  adder8(0,~a,1,NULL,result);
+}
 int main(int argc,char** argv){
   bit cout;
   byte result;
   //adder8(0,10,27,&cout,&result);
-  mul8(7,17,&cout,&result);
+  //mul8(7,17,&cout,&result);
+  cout=0;
+  neg8(27,&result);
   printf("cout: %d  result: %d\n",(int)cout,(int)result);
   return 0;
 }
