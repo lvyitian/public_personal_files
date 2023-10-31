@@ -111,25 +111,28 @@ void mul8(byte a,byte b,bit* cout,byte* result)
   if(cout) *cout=res_cout;
   if(result) *result=add7_res;
 }
-void mul16(unsigned short a,unsigned short b,bit* cout,byte* result){
+void mul16(unsigned short a,unsigned short b,bit* cout,unsigned short* result){
   bit res_cout=0;
   bit a_bits[16];
-  for(size_t i=0;i<16;i++){a_bits[i]=a&0b1;a>>=1;}
+  for(size_t i=0;i<16;i++){a_bits[i]=a&0b1;a>>=1;/*printf("i: %llu  a_bits[i]: %d\n",(unsigned long long)i,(int)a_bits[i]);*/}
   bit b_bits[16];
-  for(size_t i=0;i<16;i++){b_bits[i]=b&0b1;b>>=1;}
+  for(size_t i=0;i<16;i++){b_bits[i]=b&0b1;b>>=1;/*printf("i: %llu  b_bits[i]: %d\n",(unsigned long long)i,(int)b_bits[i]);*/}
   unsigned short tmp[16];
   for(size_t i=0;i<16;i++) tmp[i]=0;
   for(size_t tmp_index=0;tmp_index<16;tmp_index++){
-  for(size_t i=0;i<16;i++) tmp[tmp_index]|=(a_bits[tmp_index]&b_bits[i])>>i;
+  for(size_t i=0;i<16;i++) tmp[tmp_index]|=(a_bits[tmp_index]&b_bits[i])<<i;
   if(tmp[tmp_index]>>(16-tmp_index)) res_cout=1;
   tmp[tmp_index]<<=tmp_index;
+  //printf("tmp_index: %llu  tmp[tmp_index]: %d\n",(unsigned long long)tmp_index,(int)tmp[tmp_index]);
   }
   bit last_cout;
-  byte last_res=tmp[0];
+  unsigned short last_res=tmp[0];
   for(size_t i=1;i<16;i++){
     adder16(0,last_res,tmp[i],&last_cout,&last_res);
+    //printf("i: %llu  last_res: %d  tmp[i]: %d\n",(unsigned long long)i,(int)last_res,(int)tmp[i]);
     if(last_cout) res_cout=1;
   }
+  //printf("res_cout: %d  last_res: %d\n",(int)res_cout,(int)last_res);
   if(cout) *cout=res_cout;
   if(result) *result=last_res;
 }
@@ -160,7 +163,8 @@ int main(int argc,char** argv){
   /*cout=0;
   neg8(27,&result);*/
   unsigned short result;
-  adder16(0,31272,711,&cout,&result);
+  //adder16(0,31272,711,&cout,&result);
+  mul16(27,76,&cout,&result);
   printf("cout: %d  result: %d\n",(int)cout,(int)result);
   return 0;
 }
