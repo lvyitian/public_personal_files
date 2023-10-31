@@ -188,14 +188,18 @@ void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   for(size_t i=0;i<bitwidth;i++) calc_result[i]=0;
   bit* a_buf=(bit*)malloc(bitwidth*sizeof(bit));
   for(size_t i=0;i<bitwidth;i++) a_buf[i]=0;
+  bit* a_buf2=(bit*)malloc(bitwidth*sizeof(bit));
+  for(size_t i=0;i<bitwidth;i++) a_buf2[i]=0;
   bit* b_buf=(bit*)malloc(bitwidth*sizeof(bit));
   for(size_t i=0;i<bitwidth;i++) b_buf[i]=0;
+  bit* b_buf2=(bit*)malloc(bitwidth*sizeof(bit));
+  for(size_t i=0;i<bitwidth;i++) b_buf2[i]=0;
   byte last_result;
   for(size_t i=0;i<bitwidth;i+=8){
-    shl_and_assign(a,a_buf,bitwidth,bitwidth-8);
-    sar_and_assign(a,a_buf,bitwidth,bitwidth-8);
-    shl_and_assign(b,b_buf,bitwidth,bitwidth-8);
-    sar_and_assign(b,b_buf,bitwidth,bitwidth-8);
+    shl_and_assign(a,a_buf2,bitwidth,bitwidth-8);
+    sar_and_assign(a_buf2,a_buf,bitwidth,bitwidth-8);
+    shl_and_assign(b,b_buf2,bitwidth,bitwidth-8);
+    sar_and_assign(b_buf2,b_buf,bitwidth,bitwidth-8);
     adder8(last_cout,a_buf,b_buf,&last_cout,&last_result);
     bit* last_result_bytes=byte_to_bits(last_result);
     or_and_assign(calc_result,last_result_bytes,calc_result,bitwidth);
