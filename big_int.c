@@ -187,8 +187,8 @@ void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   bit last_cout=cin;
   bit* calc_result=(bit*)malloc(bitwidth*sizeof(bit));
   for(size_t i=0;i<bitwidth;i++) calc_result[i]=0;
-  bit* calc_result_buf=(bit*)malloc(bitwidth*sizeof(bit));
-  for(size_t i=0;i<bitwidth;i++) calc_result_buf[i]=0;
+  bit* last_result_buf=(bit*)malloc(bitwidth*sizeof(bit));
+  for(size_t i=0;i<bitwidth;i++) last_result_buf[i]=0;
   bit* a_buf=(bit*)malloc(bitwidth*sizeof(bit));
   for(size_t i=0;i<bitwidth;i++) a_buf[i]=0;
   bit* a_buf2=(bit*)malloc(bitwidth*sizeof(bit));
@@ -205,16 +205,15 @@ void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
     sar_and_assign(b_buf2,b_buf,bitwidth,bitwidth-8);
     adder8(last_cout,bits_to_byte(a_buf),bits_to_byte(b_buf),&last_cout,&last_result);
     bit* last_result_bytes=byte_to_bits(last_result,bitwidth);
-    or_and_assign(calc_result,last_result_bytes,calc_result,bitwidth);
+    shl_and_assign(last_result_bytes,last_result_buf,bitwidth,i);
     free(last_result_bytes);
-    shl_and_assign(calc_result,calc_result_buf,bitwidth,8);
-    for(size_t i=0;i<bitwidth;i++) calc_result[i]=calc_result_buf[i];
+    or_and_assign(calc_result,last_result_buf,calc_result,bitwidth);
     sar_and_assign(a,a_buf,bitwidth,8);
     for(size_t i=0;i<bitwidth;i++) a[i]=a_buf[i];
     sar_and_assign(b,b_buf,bitwidth,8);
     for(size_t i=0;i<bitwidth;i++) b[i]=b_buf[i];
   }
-  free(calc_result_buf);
+  free(last_result_buf);
   free(a_buf);
   free(a_buf2);
   free(b_buf);
