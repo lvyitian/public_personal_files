@@ -42,7 +42,7 @@ void adder8(bit cin,byte a,byte b,bit* cout, byte* result){
   bit bit8;
   full_adder(bit7_cout,(a&0b10000000)>>7,(b&0b10000000)>>7,&bit8_cout,&bit8);
   if(result)
-    *result=bit1|bit2<<1|bit3<<2|bit4<<3|bit5<<4|bit6<<5|bit7<<6|bit8<<7; 
+    *result=bit1|bit2<<1|bit3<<2|bit4<<3|bit5<<4|bit6<<5|bit7<<6|bit8<<7;
   if(cout)
     *cout=bit8_cout;
 }
@@ -246,7 +246,7 @@ void mul(bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   bit* zero=byte_to_bits(0,bitwidth);
   for(size_t tmp_index=0;tmp_index<bitwidth;tmp_index++){
   for(size_t i=0;i<bitwidth;i++){bit* a_tmp_index_and_b_i=byte_to_bits(a[tmp_index]&b[i],bitwidth); shl_and_assign(a_tmp_index_and_b_i,tmp_buf,bitwidth,i); free(a_tmp_index_and_b_i); or_and_assign(tmp_buf,tmp[tmp_index],tmp[tmp_index],bitwidth); }
-  sar_and_assign(tmp[tmp_index],tmp_buf,bitwidth,16-tmp_index);
+  sar_and_assign(tmp[tmp_index],tmp_buf,bitwidth,bitwidth-tmp_index);
   if(!equals(tmp_buf,zero,bitwidth)) res_cout=1;
   shl_and_assign(tmp[tmp_index],tmp_buf,bitwidth,tmp_index);
   bit* tmp_tmp_index=tmp[tmp_index];
@@ -285,7 +285,7 @@ res=0;
 while(a>=b){
 res++;
 a-=b;
-} 
+}
 calc_rem=a;
 }
 if(rem) *rem=calc_rem;
@@ -307,10 +307,10 @@ int main(int argc,char** argv){
   //mul16(27,76,&cout,&result);
   bit* a_bits=read_num_ptr_to_bits(&a,64);
   bit* b_bits=read_num_ptr_to_bits(&b,64);
-  adder(0,a_bits,b_bits,sizeof(a)*8,&cout,&result);
-  //mul(a_bits,b_bits,sizeof(a)*8,&cout,&result);
+  //adder(0,a_bits,b_bits,sizeof(a)*8,&cout,&result);
+  mul(a_bits,b_bits,sizeof(a)*8,&cout,&result);
   //shl_and_assign(a_bits,result,64,1);
-  
+
   printf("cout: %d  result: %llu\n",(int)cout,bits_to_ull(result));
   free(result);
   return 0;
