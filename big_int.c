@@ -312,6 +312,29 @@ if(rem) *rem=calc_rem;
 if(result) *result=res;
 return TRUE;
 }
+/*BOOL ge(bit* a,bit* b,size_t bitwidth){
+  
+}
+BOOL div(bit* a,bit* b,bit** rem,bit** result,size_t bitwidth){
+bit* zero=byte_to_bits(0,bitwidth);
+if(equals(b,zero)){free(zero); return FALSE;}
+free(zero);
+bit* one=byte_to_bits(1,bitwidth);
+byte calc_rem=0;
+byte res=a;
+if(!equals(b,one)){
+res=0;
+while(a>=b){
+res++;
+a-=b;
+}
+calc_rem=a;
+}
+free(one);
+if(rem) *rem=calc_rem;
+if(result) *result=res;
+return TRUE;
+}*/
 int main(int argc,char** argv){
   bit cout;
   //byte result;
