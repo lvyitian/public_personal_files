@@ -153,6 +153,15 @@ void sar_and_assign(bit* a,bit* assignee,size_t bitwidth,size_t bitnum){
 void or_and_assign(bit* a,bit* b,bit* assignee,size_t bitwidth){
   for(size_t i=0;i<bitwidth;i++) assignee[i]=a[i]|b[i];
 }
+void and_and_assign(bit* a,bit* b,bit* assignee,size_t bitwidth){
+  for(size_t i=0;i<bitwidth;i++) assignee[i]=a[i]&b[i];
+}
+void not_and_assign(bit* a,bit* assignee,size_t bitwidth){
+  for(size_t i=0;i<bitwidth;i++) assignee[i]=~a[i];
+}
+void xor_and_assign(bit* a,bit* b,bit* assignee,size_t bitwidth){
+  for(size_t i=0;i<bitwidth;i++) assignee[i]=a[i]^b[i];
+}
 bit* byte_to_bits(byte b,size_t bitwidth){
   if(bitwidth<8) bitwidth=8;
   bit* res=(bit*)malloc(bitwidth*sizeof(bit));
@@ -182,6 +191,10 @@ unsigned long long bits_to_ull(bit* bits){
     unsigned long long res=0;
     for(size_t i=0;i<64;i++) res|=bits[i]<<i;
     return res;
+}
+BOOL equals(bit* a,bit* b,size_t bitwidth){
+  for(size_t i=0;i<bitwidth;i++) if(a[i]^b[i]) return FALSE;
+  return TRUE;
 }
 void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   bit last_cout=cin;
@@ -224,6 +237,41 @@ void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   adder8(tmp1_cout,a>>8,b>>8,&cout,&tmp2_result);*/
   if(result) *result=calc_result/*tmp1_result|(tmp2_result<<8)*/;
   if(cout) *cout=last_cout;
+}
+void mul(bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
+  bit res_cout=0;
+  bit** tmp=(bit**)malloc(bitwidth*sizeof(bit*));
+  for(size_t i=0;i<bitwidth;i++) tmp[i]=byte_to_bits(0,bitwidth);
+  bit* tmp_buf=(bit*)malloc(bitwidth*sizeof(bit));
+  bit* zero=byte_to_bits(0,bitwidth);
+  for(size_t tmp_index=0;tmp_index<bitwidth;tmp_index++){
+  for(size_t i=0;i<bitwidth;i++){bit* a_tmp_index_and_b_i=byte_to_bits(a[tmp_index]&b[i],bitwidth); shl_and_assign(a_tmp_index_and_b_i,tmp_buf,bitwidth,i); free(a_tmp_index_and_b_i); or_and_assign(tmp_buf,tmp[tmp_index],tmp[tmp_index],bitwidth); }
+  sar_and_assign(tmp[tmp_index],tmp_buf,bitwidth,16-tmp_index);
+  if(!equals(tmp_buf,zero)) res_cout=1;
+  shl_and_assign(tmp[tmp_index],tmp_buf,bitwidth,tmp_index);
+  bit* tmp_tmp_index=tmp[tmp_index];
+  for(size_t i=0;i<bitwidth;i++) tmp_tmp_index[i]=tmp_buf[i];
+  //printf("tmp_index: %llu  tmp[tmp_index]: %d\n",(unsigned long long)tmp_index,(int)tmp[tmp_index]);
+  }
+  free(zero);
+  free(tmp_buf);
+  bit last_cout;
+  bit* last_res=tmp[0];
+  BOOL first_elem_freed=FALSE;
+  for(size_t i=1;i<bitwidth;i++){
+    bit* ori_last_res=last_res;
+    adder(0,last_res,tmp[i],bitwidth,&last_cout,&last_res);
+    free(ori_last_res);
+    first_elem_freed=TRUE;
+    //printf("i: %llu  last_res: %d  tmp[i]: %d\n",(unsigned long long)i,(int)last_res,(int)tmp[i]);
+    if(last_cout) res_cout=1;
+  }
+  if(!first_elem_freed) free(tmp[0]);
+  for(size_t i=1;i<bitwidth;i++) free(tmp[i]);
+  free(tmp);
+  //printf("res_cout: %d  last_res: %d\n",(int)res_cout,(int)last_res);
+  if(cout) *cout=res_cout;
+  if(result) *result=last_res;
 }
 void neg8(byte a,byte* result){
   adder8(0,~a,1,NULL,result);
