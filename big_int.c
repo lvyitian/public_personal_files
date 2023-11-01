@@ -192,6 +192,14 @@ unsigned long long bits_to_ull(bit* bits){
     for(size_t i=0;i<64;i++) res|=bits[i]<<i;
     return res;
 }
+long long bits_to_ll(bit* bits){
+    long long res=0;
+    for(size_t i=0;i<64;i++) {res<<=1;res|=bits[63-i];}
+    /*bit* test=read_num_ptr_to_bits(&res,sizeof(res)*8);
+    for(size_t i=0;i<64;i++) printf("i: %llu  test[i]: %d  bits[i]: %d\n",(unsigned long long)i,(int)test[i],(int)bits[i]);
+    free(test);*/
+    return res;
+}
 BOOL equals(bit* a,bit* b,size_t bitwidth){
   for(size_t i=0;i<bitwidth;i++) if(a[i]^b[i]) return FALSE;
   return TRUE;
@@ -284,7 +292,7 @@ void neg(bit* a,bit** result,size_t bitwidth){
   bit* one=byte_to_bits(1,bitwidth);
   //printf("one: %llu\n",bits_to_ull(one));
   adder(0,tmp,one,bitwidth,NULL,result);
-  for(size_t i=0;i<bitwidth;i++) printf("i: %llu  (*result)[i]: %d  tmp[i]: %d  a[i]: %d\n",(unsigned long long)i,(int)(*result)[i],(int)tmp[i],(int)a[i]);
+  //for(size_t i=0;i<bitwidth;i++) printf("i: %llu  (*result)[i]: %d  tmp[i]: %d  a[i]: %d\n",(unsigned long long)i,(int)(*result)[i],(int)tmp[i],(int)a[i]);
   free(tmp);
   free(one);
 }
@@ -314,7 +322,7 @@ int main(int argc,char** argv){
   //unsigned short result;
   bit* result=/*(bit*)malloc(64*sizeof(bit))*/NULL;
   unsigned long long a=233;
-  unsigned long long b=773;
+  unsigned long long b=773/*-233*//*0*/;
   //adder16(0,31272,711,&cout,&result);
   //mul16(27,76,&cout,&result);
   bit* a_bits=read_num_ptr_to_bits(&a,sizeof(a)*8);
@@ -324,8 +332,8 @@ int main(int argc,char** argv){
   //shl_and_assign(a_bits,result,64,1);
   neg(a_bits,&result,sizeof(a)*8);
   //not_and_assign(a_bits,result,sizeof(a)*8);
-  for(size_t i=0;i<sizeof(a)*8;i++) printf("i: %llu  result[i]: %d\n",(unsigned long long)i,(int)result[i]);
-  printf("cout: %d  result: %lld\n",(int)cout,(long long)bits_to_ull(result));
+  //for(size_t i=0;i<sizeof(a)*8;i++) printf("i: %llu  result[i]: %d  b_bits[i]: %d\n",(unsigned long long)i,(int)result[i],(int)b_bits[i]);
+  printf("cout: %d  result: %lld\n",(int)cout,bits_to_ll(result));
   free(result);
   free(a_bits);
   free(b_bits);
