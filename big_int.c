@@ -284,7 +284,7 @@ void neg(bit* a,bit** result,size_t bitwidth){
   bit* one=byte_to_bits(1,bitwidth);
   //printf("one: %llu\n",bits_to_ull(one));
   adder(0,tmp,one,bitwidth,NULL,result);
-  //for(size_t i=0;i<bitwidth;i++) printf("i: %llu  (*result)[i]: %d  tmp[i]: %d  a[i]: %d\n",(unsigned long long)i,(int)(*result)[i],(int)tmp[i],(int)a[i]);
+  for(size_t i=0;i<bitwidth;i++) printf("i: %llu  (*result)[i]: %d  tmp[i]: %d  a[i]: %d\n",(unsigned long long)i,(int)(*result)[i],(int)tmp[i],(int)a[i]);
   free(tmp);
   free(one);
 }
@@ -324,7 +324,8 @@ int main(int argc,char** argv){
   //shl_and_assign(a_bits,result,64,1);
   neg(a_bits,&result,sizeof(a)*8);
   //not_and_assign(a_bits,result,sizeof(a)*8);
-  printf("cout: %d  result: %llu\n",(int)cout,bits_to_ull(result));
+  for(size_t i=0;i<sizeof(a)*8;i++) printf("i: %llu  result[i]: %d\n",(unsigned long long)i,(int)result[i]);
+  printf("cout: %d  result: %lld\n",(int)cout,(long long)bits_to_ull(result));
   free(result);
   free(a_bits);
   free(b_bits);
