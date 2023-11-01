@@ -247,7 +247,7 @@ void mul(bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   for(size_t tmp_index=0;tmp_index<bitwidth;tmp_index++){
   for(size_t i=0;i<bitwidth;i++){bit* a_tmp_index_and_b_i=byte_to_bits(a[tmp_index]&b[i],bitwidth); shl_and_assign(a_tmp_index_and_b_i,tmp_buf,bitwidth,i); free(a_tmp_index_and_b_i); or_and_assign(tmp_buf,tmp[tmp_index],tmp[tmp_index],bitwidth); }
   sar_and_assign(tmp[tmp_index],tmp_buf,bitwidth,16-tmp_index);
-  if(!equals(tmp_buf,zero)) res_cout=1;
+  if(!equals(tmp_buf,zero,bitwidth)) res_cout=1;
   shl_and_assign(tmp[tmp_index],tmp_buf,bitwidth,tmp_index);
   bit* tmp_tmp_index=tmp[tmp_index];
   for(size_t i=0;i<bitwidth;i++) tmp_tmp_index[i]=tmp_buf[i];
