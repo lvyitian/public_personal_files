@@ -157,7 +157,7 @@ void and_and_assign(bit* a,bit* b,bit* assignee,size_t bitwidth){
   for(size_t i=0;i<bitwidth;i++) assignee[i]=a[i]&b[i];
 }
 void not_and_assign(bit* a,bit* assignee,size_t bitwidth){
-  for(size_t i=0;i<bitwidth;i++) assignee[i]=~a[i];
+  for(size_t i=0;i<bitwidth;i++){ assignee[i]=(~a[i])&0b1; /*printf("i: %llu  assignee[i]: %d  a[i]: %d\n",(unsigned long long)i,(int)assignee[i],(int)a[i]);*/}
 }
 void xor_and_assign(bit* a,bit* b,bit* assignee,size_t bitwidth){
   for(size_t i=0;i<bitwidth;i++) assignee[i]=a[i]^b[i];
@@ -276,6 +276,17 @@ void mul(bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
 void neg8(byte a,byte* result){
   adder8(0,~a,1,NULL,result);
 }
+void neg(bit* a,bit** result,size_t bitwidth){
+  //printf("a: %llu\n",bits_to_ull(a));
+  bit* tmp=(bit*)malloc(bitwidth*sizeof(bit));
+  not_and_assign(a,tmp,bitwidth);
+  printf("tmp: %lld\n",(long long)bits_to_ull(tmp));
+  bit* one=byte_to_bits(1,bitwidth);
+  printf("one: %llu\n",bits_to_ull(one));
+  adder(0,tmp,one,bitwidth,NULL,result);
+  free(tmp);
+  free(one);
+}
 BOOL div8(byte a,byte b,byte* rem,byte* result){
 if(!b) return FALSE;
 byte calc_rem=0;
@@ -297,21 +308,24 @@ int main(int argc,char** argv){
   //byte result;
   //adder8(0,10,27,&cout,&result);
   //mul8(7,17,&cout,&result);
-  /*cout=0;
-  neg8(27,&result);*/
+  cout=0;
+  /*neg8(27,&result);*/
   //unsigned short result;
   bit* result=/*(bit*)malloc(64*sizeof(bit))*/NULL;
   unsigned long long a=233;
   unsigned long long b=773;
   //adder16(0,31272,711,&cout,&result);
   //mul16(27,76,&cout,&result);
-  bit* a_bits=read_num_ptr_to_bits(&a,64);
-  bit* b_bits=read_num_ptr_to_bits(&b,64);
+  bit* a_bits=read_num_ptr_to_bits(&a,sizeof(a)*8);
+  bit* b_bits=read_num_ptr_to_bits(&b,sizeof(b)*8);
   //adder(0,a_bits,b_bits,sizeof(a)*8,&cout,&result);
-  mul(a_bits,b_bits,sizeof(a)*8,&cout,&result);
+  //mul(a_bits,b_bits,sizeof(a)*8,&cout,&result);
   //shl_and_assign(a_bits,result,64,1);
-
+  neg(a_bits,&result,sizeof(a)*8);
+  //not_and_assign(a_bits,result,sizeof(a)*8);
   printf("cout: %d  result: %llu\n",(int)cout,bits_to_ull(result));
   free(result);
+  free(a_bits);
+  free(b_bits);
   return 0;
 }
