@@ -312,6 +312,9 @@ if(rem) *rem=calc_rem;
 if(result) *result=res;
 return TRUE;
 }
+BOOL gt(bit* a,bit* b,size_t bitwidth){
+  
+}
 /*BOOL ge(bit* a,bit* b,size_t bitwidth){
   
 }
