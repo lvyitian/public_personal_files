@@ -280,10 +280,11 @@ void neg(bit* a,bit** result,size_t bitwidth){
   //printf("a: %llu\n",bits_to_ull(a));
   bit* tmp=(bit*)malloc(bitwidth*sizeof(bit));
   not_and_assign(a,tmp,bitwidth);
-  printf("tmp: %lld\n",(long long)bits_to_ull(tmp));
+  //printf("tmp: %lld\n",(long long)bits_to_ull(tmp));
   bit* one=byte_to_bits(1,bitwidth);
-  printf("one: %llu\n",bits_to_ull(one));
+  //printf("one: %llu\n",bits_to_ull(one));
   adder(0,tmp,one,bitwidth,NULL,result);
+  //for(size_t i=0;i<bitwidth;i++) printf("i: %llu  (*result)[i]: %d  tmp[i]: %d  a[i]: %d\n",(unsigned long long)i,(int)(*result)[i],(int)tmp[i],(int)a[i]);
   free(tmp);
   free(one);
 }
