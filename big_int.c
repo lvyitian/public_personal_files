@@ -313,7 +313,7 @@ if(result) *result=res;
 return TRUE;
 }
 BOOL lt_signed(bit* a,bit* b,size_t bitwidth){
-  return ((~((a^b)[bitwidth-1]))&&((a+(-b))[bitwidth-1]))|((~(b[bitwidth-1]))&a[bitwidth-1]);
+  return ((~((a^b)[bitwidth-1]))&((a+(-b))[bitwidth-1]))|((~(b[bitwidth-1]))&a[bitwidth-1]);
 }
 BOOL lt(bit* a,bit* b,size_t bitwidth){
 
