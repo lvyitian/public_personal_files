@@ -1,5 +1,5 @@
 signed less than:
-((~((a^b)[msb]))&&((a+(-b))[msb]))|((~(b[msb]))&a[msb])
+((~((a^b)[msb]))&((a+(-b))[msb]))|((~(b[msb]))&a[msb])
 
 unsigned less than:
 adder(adder(1,a,~b).cout,0,1).result
