@@ -395,6 +395,8 @@ int main(int argc,char** argv){
   neg(a_bits,&result,sizeof(a)*8);
   //not_and_assign(a_bits,result,sizeof(a)*8);
   //for(size_t i=0;i<sizeof(a)*8;i++) printf("i: %llu  result[i]: %d  b_bits[i]: %d\n",(unsigned long long)i,(int)result[i],(int)b_bits[i]);
+  //div_any(b,a,NULL,&result,sizeof(a)*8);
+  printf("gt: %d\n",(int)gt(b,a,sizeof(a)*8));
   printf("cout: %d  result: %lld\n",(int)cout,bits_to_ll(result));
   free(result);
   free(a_bits);
