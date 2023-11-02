@@ -323,13 +323,24 @@ BOOL lt_signed(bit* a,bit* b,size_t bitwidth){
   return res;
 }
 BOOL lt(bit* a,bit* b,size_t bitwidth){
-  
+  bit* not_b=(bit*)malloc(bitwidth*sizeof(bit));
+  not_and_assign(b,not_b,bitwidth);
+  bit add1_cout;
+  adder(1,a,not_b,&add1_cout,NULL);
+  bit* zero=byte_to_bits(0),one=byte_to_bits(1);
+  bit* add2_result=NULL;
+  adder(add1_cout,zero,one,NULL,&add2_result);
+  free(one);
+  BOOL res=!equals(add2_result,zero,bitwidth);
+  free(zero);
+  free(add2_result);
+  return res;
 }
 BOOL gt(bit* a,bit* b,size_t bitwidth){
-  
+ return !lt(a,b,bitwidth)&&!equals(a,b,bitwidth) 
 }
-/*BOOL ge(bit* a,bit* b,size_t bitwidth){
-  
+BOOL ge(bit* a,bit* b,size_t bitwidth){
+  return !lt(a,b,bitwidth);  
 }
 BOOL div(bit* a,bit* b,bit** rem,bit** result,size_t bitwidth){
 bit* zero=byte_to_bits(0,bitwidth);
