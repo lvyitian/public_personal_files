@@ -313,10 +313,17 @@ if(result) *result=res;
 return TRUE;
 }
 BOOL lt_signed(bit* a,bit* b,size_t bitwidth){
-  return ((~((a^b)[bitwidth-1]))&((a+(-b))[bitwidth-1]))|((~(b[bitwidth-1]))&a[bitwidth-1]);
+  bit* neg_b=NULL;
+  neg(b,&neg_b,bitwidth);
+  bit* add_result=NULL;
+  adder(a,neg_b,bitwidth,NULL,&add_result);
+  free(neg_b);
+  BOOL res=((~(a[bitwidth-1]^b[bitwidth-1]))&add_result[bitwidth-1])|((~b[bitwidth-1])&(a[bitwidth-1]))!=0;
+  free(add_result);
+  return res;
 }
 BOOL lt(bit* a,bit* b,size_t bitwidth){
-
+  
 }
 BOOL gt(bit* a,bit* b,size_t bitwidth){
   
