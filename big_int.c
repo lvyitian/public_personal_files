@@ -344,21 +344,31 @@ BOOL ge(bit* a,bit* b,size_t bitwidth){
 }
 BOOL div(bit* a,bit* b,bit** rem,bit** result,size_t bitwidth){
 bit* zero=byte_to_bits(0,bitwidth);
-if(equals(b,zero)){free(zero); return FALSE;}
+if(equals(b,zero,bitwidth)){free(zero); return FALSE;}
 bit* res=NULL;
 adder(0,a,zero,bitwidth,NULL,&res);
-free(zero);
 bit* one=byte_to_bits(1,bitwidth);
 bit* calc_rem=byte_to_bits(0,bitwidth);
-if(!equals(b,one)){
+if(!equals(b,one,bitwidth)){
 free(res);
 res=byte_to_bits(0,bitwidth);
-while(a>=b){
-res++;
-a-=b;
+bit* neg_b=NULL;
+neg(b,&neg_b,bitwidth);
+bit* a_copy=NULL;
+adder(0,a,zero,bitwidth,NULL,&a_copy);
+while(ge(a_copy,b,bitwidth)){
+bit* ori_res=res;
+adder(1,res,zero,bitwidth,NULL,&res);
+free(ori_res);
+bit* ori_a_copy=a_copy;
+adder(0,a_copy,neg_b,bitwidth,NULL,&a_copy);
+free(ori_a_copy);
 }
-calc_rem=a;
+free(neg_b);
+free(calc_rem);
+calc_rem=a_copy;
 }
+free(zero);
 free(one);
 if(rem) *rem=calc_rem; else free(calc_rem);
 if(result) *result=res; else free(res);
