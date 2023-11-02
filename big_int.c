@@ -340,7 +340,7 @@ BOOL gt(bit* a,bit* b,size_t bitwidth){
  return !lt(a,b,bitwidth)&&!equals(a,b,bitwidth);
 }
 BOOL ge(bit* a,bit* b,size_t bitwidth){
-  return !lt(a,b,bitwidth);  
+  return !lt(a,b,bitwidth);
 }
 BOOL div_any(bit* a,bit* b,bit** rem,bit** result,size_t bitwidth){
 bit* zero=byte_to_bits(0,bitwidth);
@@ -396,7 +396,7 @@ int main(int argc,char** argv){
   //not_and_assign(a_bits,result,sizeof(a)*8);
   //for(size_t i=0;i<sizeof(a)*8;i++) printf("i: %llu  result[i]: %d  b_bits[i]: %d\n",(unsigned long long)i,(int)result[i],(int)b_bits[i]);
   //div_any(b,a,NULL,&result,sizeof(a)*8);
-  printf("gt: %d\n",(int)gt(b,a,sizeof(a)*8));
+  printf("gt: %d\n",(int)gt(b_bits,a_bits,sizeof(a)*8));
   printf("cout: %d  result: %lld\n",(int)cout,bits_to_ll(result));
   free(result);
   free(a_bits);
