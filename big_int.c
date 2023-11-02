@@ -243,7 +243,7 @@ void adder(bit cin,bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   adder8(cin,a<<8>>8,b<<8>>8,&tmp1_cout,&tmp1_result);
   byte tmp2_result;
   adder8(tmp1_cout,a>>8,b>>8,&cout,&tmp2_result);*/
-  if(result) *result=calc_result/*tmp1_result|(tmp2_result<<8)*/;
+  if(result) *result=calc_result/*tmp1_result|(tmp2_result<<8)*/; else free(calc_result);
   if(cout) *cout=last_cout;
 }
 void mul(bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
@@ -279,7 +279,7 @@ void mul(bit* a,bit* b,size_t bitwidth,bit* cout,bit** result){
   free(tmp);
   //printf("res_cout: %d  last_res: %d\n",(int)res_cout,(int)last_res);
   if(cout) *cout=res_cout;
-  if(result) *result=last_res;
+  if(result) *result=last_res; else free(last_res);
 }
 void neg8(byte a,byte* result){
   adder8(0,~a,1,NULL,result);
@@ -345,12 +345,14 @@ BOOL ge(bit* a,bit* b,size_t bitwidth){
 BOOL div(bit* a,bit* b,bit** rem,bit** result,size_t bitwidth){
 bit* zero=byte_to_bits(0,bitwidth);
 if(equals(b,zero)){free(zero); return FALSE;}
+bit* res=NULL;
+adder(0,a,zero,bitwidth,NULL,&res);
 free(zero);
 bit* one=byte_to_bits(1,bitwidth);
-byte calc_rem=0;
-byte res=a;
+bit* calc_rem=byte_to_bits(0,bitwidth);
 if(!equals(b,one)){
-res=0;
+free(res);
+res=byte_to_bits(0,bitwidth);
 while(a>=b){
 res++;
 a-=b;
@@ -358,8 +360,8 @@ a-=b;
 calc_rem=a;
 }
 free(one);
-if(rem) *rem=calc_rem;
-if(result) *result=res;
+if(rem) *rem=calc_rem; else free(calc_rem);
+if(result) *result=res; else free(res);
 return TRUE;
 }*/
 int main(int argc,char** argv){
