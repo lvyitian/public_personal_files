@@ -331,8 +331,8 @@ BOOL lt(bit* a,bit* b,size_t bitwidth){
   bit* add2_result=NULL;
   adder(add1_cout,zero,one,NULL,&add2_result);
   free(one);
-  BOOL res=!equals(add2_result,zero,bitwidth);
   free(zero);
+  BOOL res=add2_result[0];
   free(add2_result);
   return res;
 }
