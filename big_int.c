@@ -326,10 +326,10 @@ BOOL lt(bit* a,bit* b,size_t bitwidth){
   bit* not_b=(bit*)malloc(bitwidth*sizeof(bit));
   not_and_assign(b,not_b,bitwidth);
   bit add1_cout;
-  adder(1,a,not_b,&add1_cout,NULL);
-  bit* zero=byte_to_bits(0),one=byte_to_bits(1);
+  adder(1,a,not_b,bitwidth,&add1_cout,NULL);
+  bit* zero=byte_to_bits(0,bitwidth),one=byte_to_bits(1,bitwidth);
   bit* add2_result=NULL;
-  adder(add1_cout,zero,one,NULL,&add2_result);
+  adder(add1_cout,zero,one,bitwidth,NULL,&add2_result);
   free(one);
   free(zero);
   BOOL res=add2_result[0];
@@ -337,12 +337,12 @@ BOOL lt(bit* a,bit* b,size_t bitwidth){
   return res;
 }
 BOOL gt(bit* a,bit* b,size_t bitwidth){
- return !lt(a,b,bitwidth)&&!equals(a,b,bitwidth) 
+ return !lt(a,b,bitwidth)&&!equals(a,b,bitwidth);
 }
 BOOL ge(bit* a,bit* b,size_t bitwidth){
   return !lt(a,b,bitwidth);  
 }
-BOOL div(bit* a,bit* b,bit** rem,bit** result,size_t bitwidth){
+BOOL div_any(bit* a,bit* b,bit** rem,bit** result,size_t bitwidth){
 bit* zero=byte_to_bits(0,bitwidth);
 if(equals(b,zero,bitwidth)){free(zero); return FALSE;}
 bit* res=NULL;
@@ -373,7 +373,7 @@ free(one);
 if(rem) *rem=calc_rem; else free(calc_rem);
 if(result) *result=res; else free(res);
 return TRUE;
-}*/
+}
 int main(int argc,char** argv){
   bit cout;
   //byte result;
