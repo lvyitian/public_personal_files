@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #undef NULL
 #define NULL 0
 #undef BOOL
@@ -373,6 +374,51 @@ free(one);
 if(rem) *rem=calc_rem; else free(calc_rem);
 if(result) *result=res; else free(res);
 return TRUE;
+}
+void bits_to_str(bit* num,size_t bitwidth,char** ret,size_t slen)
+{
+  char* res=(char*)malloc((slen+1)*sizeof(char));
+  for(size_t i=0;i<slen+1;i++) res[i]=0;
+  char* concat_buf=malloc((slen+1)*sizeof(char));
+  for(size_t i=0;i<slen+1;i++) concat_buf[i]=0;
+  bit* zero=byte_to_bits(0,bitwidth);
+  bit* ten=byte_to_bits(10,bitwidth);
+  bit* num_copy=NULL;
+  adder(0,num,zero,bitwidth,NULL,&num_copy);
+  while(!equals(num_copy,zero)){
+	  bit* rem=NULL;
+      bit* ori_num_copy=num_copy;
+      div_any(num_copy,ten,&rem,&num_copy,bitwidth);
+      free(ori_num_copy);
+      concat_buf[0]='0'+bits_to_byte(rem);
+      strcat(concat_buf,res);
+      for(size_t i=0;i<slen+1;i++) res[i]=concat_buf[i];
+      for(size_t i=0;i<slen+1;i++) concat_buf[i]=0;
+  }
+  free(ten);
+  free(num_copy);
+  free(concat_buf);
+  free(zero);
+  if(ret) *ret=res; else free(res);
+}
+void str_to_bits(char* str,bit** res_out,size_t bitwidth){
+  size_t slen=strlen(str);
+  bit* res=byte_to_bits(0,bitwidth);
+  bit* ten=byte_to_bits(10,bitwidth);
+  for(size_t i=0;i<slen;i++){
+	  char current_char=str[i];
+	  byte current_num=current_char-'0';
+	  bit* ori_res=res;
+      mul(res,ten,bitwidth,NULL,&res);
+      free(ori_res);
+      bit* current_num_bits=byte_to_bits(current_num,bitwidth);
+      ori_res=res;
+      adder(0,res,current_num_bits,bitwidth,NULL,&res);
+      free(ori_res);
+      free(current_num_bits);
+  }
+  free(ten);
+  if(res_out) *res_out=res; else free(res);
 }
 int main(int argc,char** argv){
   bit cout;
