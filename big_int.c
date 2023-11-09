@@ -385,7 +385,7 @@ void bits_to_str(bit* num,size_t bitwidth,char** ret,size_t slen)
   bit* ten=byte_to_bits(10,bitwidth);
   bit* num_copy=NULL;
   adder(0,num,zero,bitwidth,NULL,&num_copy);
-  while(!equals(num_copy,zero)){
+  while(!equals(num_copy,zero,bitwidth)){
 	  bit* rem=NULL;
       bit* ori_num_copy=num_copy;
       div_any(num_copy,ten,&rem,&num_copy,bitwidth);
