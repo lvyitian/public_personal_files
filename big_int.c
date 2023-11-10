@@ -324,7 +324,7 @@ BOOL lt_signed(bit* a,bit* b,size_t bitwidth){
   return res;
 }
 BOOL lt(bit* a,bit* b,size_t bitwidth){
-  bit* not_b=(bit*)malloc(bitwidth*sizeof(bit));
+  /*bit* not_b=(bit*)malloc(bitwidth*sizeof(bit));
   not_and_assign(b,not_b,bitwidth);
   bit add1_cout;
   adder(1,a,not_b,bitwidth,&add1_cout,NULL);
@@ -335,7 +335,12 @@ BOOL lt(bit* a,bit* b,size_t bitwidth){
   free(zero);
   BOOL res=add2_result[0];
   free(add2_result);
-  return res;
+  return res;*/
+  for(long long i=bitwidth-1;i>=0;i--){
+     if(a[i]&~b[i]) return FALSE;
+     if(b[i]&~a[i]) return TRUE;
+  }
+  return FALSE;
 }
 BOOL gt(bit* a,bit* b,size_t bitwidth){
  return !lt(a,b,bitwidth)&&!equals(a,b,bitwidth);
@@ -431,6 +436,8 @@ int main(int argc,char** argv){
   bit* result=/*(bit*)malloc(64*sizeof(bit))*/NULL;
   unsigned long long a=233;
   unsigned long long b=773/*-233*//*0*/;
+  /*byte a=20;
+  byte b=30;*/
   //adder16(0,31272,711,&cout,&result);
   //mul16(27,76,&cout,&result);
   bit* a_bits=read_num_ptr_to_bits(&a,sizeof(a)*8);
@@ -438,13 +445,28 @@ int main(int argc,char** argv){
   //adder(0,a_bits,b_bits,sizeof(a)*8,&cout,&result);
   //mul(a_bits,b_bits,sizeof(a)*8,&cout,&result);
   //shl_and_assign(a_bits,result,64,1);
-  neg(a_bits,&result,sizeof(a)*8);
+  //neg(a_bits,&result,sizeof(a)*8);
+  /*result=a_bits;
+  char* res_str=NULL;
+  bits_to_str(result,sizeof(a)*8,&res_str,100);*/
   //not_and_assign(a_bits,result,sizeof(a)*8);
   //for(size_t i=0;i<sizeof(a)*8;i++) printf("i: %llu  result[i]: %d  b_bits[i]: %d\n",(unsigned long long)i,(int)result[i],(int)b_bits[i]);
   //div_any(b,a,NULL,&result,sizeof(a)*8);
   printf("gt: %d\n",(int)gt(b_bits,a_bits,sizeof(a)*8));
-  printf("cout: %d  result: %lld\n",(int)cout,bits_to_ll(result));
-  free(result);
+  printf("gt: %d\n",(int)gt(a_bits,b_bits,sizeof(a)*8));
+  printf("lt: %d\n",(int)lt(b_bits,a_bits,sizeof(a)*8));
+  printf("lt: %d\n",(int)lt(a_bits,b_bits,sizeof(a)*8));
+  //printf("cout: %d  result: %lld\n",(int)cout,bits_to_ll(result));
+  /*byte rem=0;
+  byte div_res=0;
+  div8(7,2,&rem,&div_res);
+  printf("rem: %d  div_res: %d\n",(int)rem,(int)div_res);*/
+  //printf("cout: %d  result: %s\n",(int)cout,res_str);
+  /*bit* rem=NULL;
+  div_any(b_bits,a_bits,&rem,&result,sizeof(a)*8);
+  printf("rem: %lld  result: %lld\n",bits_to_ll(rem),bits_to_ll(result));
+  free(rem);
+  free(result);*/
   free(a_bits);
   free(b_bits);
   return 0;
