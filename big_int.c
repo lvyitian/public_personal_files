@@ -328,7 +328,7 @@ BOOL lt(bit* a,bit* b,size_t bitwidth){
   not_and_assign(b,not_b,bitwidth);
   bit add1_cout;
   adder(1,a,not_b,bitwidth,&add1_cout,NULL);
-  bit* zero=byte_to_bits(0,bitwidth),one=byte_to_bits(1,bitwidth);
+  bit* zero=byte_to_bits(0,bitwidth),*one=byte_to_bits(1,bitwidth);
   bit* add2_result=NULL;
   adder(add1_cout,zero,one,bitwidth,NULL,&add2_result);
   free(one);
