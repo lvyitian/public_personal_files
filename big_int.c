@@ -319,7 +319,7 @@ BOOL lt_signed(bit* a,bit* b,size_t bitwidth){
   bit* add_result=NULL;
   adder(0,a,neg_b,bitwidth,NULL,&add_result);
   free(neg_b);
-  BOOL res=((~(a[bitwidth-1]^b[bitwidth-1]))&add_result[bitwidth-1])|((~b[bitwidth-1])&(a[bitwidth-1]))!=0;
+  BOOL res=(((~(a[bitwidth-1]^b[bitwidth-1]))&add_result[bitwidth-1])|((~b[bitwidth-1])&(a[bitwidth-1])))!=0;
   free(add_result);
   return res;
 }
