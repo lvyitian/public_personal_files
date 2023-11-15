@@ -185,7 +185,7 @@ bit* read_num_ptr_to_bits(void* num_ptr,size_t bitwidth)
   unsigned long long num=*((unsigned long long*)num_ptr);
   bit* res=(bit*)malloc(bitwidth*sizeof(bit));
   for(size_t i=0;i<bitwidth;i++) res[i]=0;
-  for(size_t i=0;i<bitwidth;i++){res[i]=num&0b1;num>>=1;}\
+  for(size_t i=0;i<bitwidth;i++){res[i]=num&0b1;num>>=1;}
   return res;
 }
 unsigned long long bits_to_ull(bit* bits){
