@@ -1,0 +1,17 @@
+C:\Users\53548\EVEHelper\bin\Release\net6.0-windows\EVEHelper.exe
+C:\Users\53548\EVEHelper\bin\Release\net6.0-windows\EVEHelper.deps.json
+C:\Users\53548\EVEHelper\bin\Release\net6.0-windows\EVEHelper.runtimeconfig.json
+C:\Users\53548\EVEHelper\bin\Release\net6.0-windows\EVEHelper.dll
+C:\Users\53548\EVEHelper\bin\Release\net6.0-windows\EVEHelper.pdb
+C:\Users\53548\EVEHelper\bin\Release\net6.0-windows\Newtonsoft.Json.dll
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\EVEHelper.csproj.AssemblyReference.cache
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\EVEHelper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\EVEHelper.AssemblyInfoInputs.cache
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\EVEHelper.AssemblyInfo.cs
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\EVEHelper.csproj.CoreCompileInputs.cache
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\EVEHelper.csproj.CopyComplete
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\EVEHelper.dll
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\refint\EVEHelper.dll
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\EVEHelper.pdb
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\EVEHelper.genruntimeconfig.cache
+C:\Users\53548\EVEHelper\obj\Release\net6.0-windows\ref\EVEHelper.dll

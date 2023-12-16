@@ -1,0 +1,17 @@
+C:\Users\53548\EVEHelper\bin\Debug\net6.0\EVEHelper.exe
+C:\Users\53548\EVEHelper\bin\Debug\net6.0\EVEHelper.deps.json
+C:\Users\53548\EVEHelper\bin\Debug\net6.0\EVEHelper.runtimeconfig.json
+C:\Users\53548\EVEHelper\bin\Debug\net6.0\EVEHelper.dll
+C:\Users\53548\EVEHelper\bin\Debug\net6.0\EVEHelper.pdb
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\EVEHelper.csproj.AssemblyReference.cache
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\EVEHelper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\EVEHelper.AssemblyInfoInputs.cache
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\EVEHelper.AssemblyInfo.cs
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\EVEHelper.csproj.CoreCompileInputs.cache
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\EVEHelper.dll
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\refint\EVEHelper.dll
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\EVEHelper.pdb
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\EVEHelper.genruntimeconfig.cache
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\ref\EVEHelper.dll
+C:\Users\53548\EVEHelper\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\53548\EVEHelper\obj\Debug\net6.0\EVEHelper.csproj.CopyComplete

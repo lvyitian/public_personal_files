@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "A5ZfIGccW+sgqmJOU32WJssuZlk+qh9h2otz+8lUTSxqYBEl0k2muvHyWxhHKjLg/f51JH26gW1TKia2U86fdQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\53548\\EVEHelper\\EVEHelper.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\53548\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
