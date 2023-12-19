@@ -2,24 +2,24 @@ import java.util.*;
 import java.util.stream.Collectors;
 public class Main{
   public static class Phone{
-public int type;
-public boolean unlocked;
-public Phone(int type,boolean unlocked){
-this.type=type:
-this.unlocked=unlocked;
-}
-@Override
-public boolean equals(Object other){
-if(this==other) return true:
-if(!(other instanceof Phone)) return false;
-Phone tmp=(Phone)other;
-return this.type==other;//compare type only
-}
-@Override
-public int hashCode(){
-  return Objects.hash(this.type,this.unlocked);
+    public int type;
+    public boolean unlocked;
+    public Phone(int type,boolean unlocked){
+      this.type=type;
+      this.unlocked=unlocked;
+    }
+    @Override
+    public boolean equals(Object other){
+      if(this==other) return true;
+      if(!(other instanceof Phone)) return false;
+      Phone tmp=(Phone)other;
+      return this.type==tmp.type;//compare type only
+    }
+    @Override
+    public int hashCode(){
+      return Objects.hash(this.type,this.unlocked);
+    }
   }
-}
 public static <T> void permute(
   int n, T[] elements, HashSet<List<T>> set) {
 
