@@ -1,6 +1,7 @@
 import java.util.*;
 import java.util.stream.Collectors;
-public class Main{public static class Phone{
+public class Main{
+  public static class Phone{
 public int type;
 public boolean unlocked;
 public Phone(int type,boolean unlocked){
