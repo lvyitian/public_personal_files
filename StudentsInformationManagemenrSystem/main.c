@@ -245,6 +245,10 @@ student_t* input_student(BOOL prompt){
 	student_t* stu=create_student_with_current_time(id_no,name,clazz,identity_number,mark,year_of_join);
 	return stu;
 }
+void print_student(student_t* stu){
+	printf("学号\t姓名\t班级\t身份证号\t学分\t加入时间(精确到秒的unix时间戳)\t入籍年份\n");
+	printf("%s\t%s\t%s\t%s\t%llu\t%llu\t%llu\n",stu->id_no->buf,stu->name->buf,stu->clazz->buf,stu->identity_number->buf,stu->mark,(unsigned long long)(stu->create_time),stu->year_of_join);
+}
 void print_students(vector_t* vec){
 	//序号 学号 姓名 班级 身份证号 学分 加入时间 入籍年份
 	printf("序号\t学号\t姓名\t班级\t身份证号\t学分\t加入时间(精确到秒的unix时间戳)\t入籍年份\n");
@@ -256,6 +260,43 @@ void print_students(vector_t* vec){
 void student_element_finalize(size_t index,vector_t* vec){
 	student_t* stu=(student_t*)vector_get_element_ptr(vec,index);
 	destroy_student(stu);
+}
+student_t* find_student_by_id_no(vector_t* vec,string_t* id_no){
+	for(size_t i=0;i<vec->length;i++){
+		student_t* cur=(student_t*)vector_get_element_ptr(vec,i);
+		if(!strcmp(cur->id_no->buf,id_no->buf)) return cur;
+	}
+	return NULL;
+}
+void read_id_no_and_print(vector_t* vec){
+	string_t* id_no=read_string("请输入学号: ");
+	student_t* stu=find_student_by_id_no(vec,id_no);
+	if(stu) print_student(stu); else printf("找不到学号为\"%s\"的学生!\n",id_no->buf);
+}
+student_t* find_student_by_identity_number(vector_t* vec,string_t* identity_number){
+	for(size_t i=0;i<vec->length;i++){
+		student_t* cur=(student_t*)vector_get_element_ptr(vec,i);
+		if(!strcmp(cur->identity_number->buf,identity_number->buf)) return cur;
+	}
+	return NULL;
+}
+void read_identity_number_and_print(vector_t* vec){
+	string_t* identity_number=read_string("请输入身份证号: ");
+	student_t* stu=find_student_by_identity_number(vec,identity_number);
+	if(stu) print_student(stu); else printf("找不到身份证号为\"%s\"的学生!\n",identity_number->buf);
+}
+void read_clazz_and_print(vector_t* vec){
+	string_t* clazz=read_string("请输入班级: ");
+	//序号 学号 姓名 班级 身份证号 学分 加入时间 入籍年份
+	printf("序号\t学号\t姓名\t班级\t身份证号\t学分\t加入时间(精确到秒的unix时间戳)\t入籍年份\n");
+	size_t order_num=1;
+	for(size_t i=0;i<vec->length;i++){
+		student_t* stu=(student_t*)vector_get_element_ptr(vec,i);
+		if(!strcmp(stu->clazz->buf,clazz->buf)){
+			printf("%llu\t%s\t%s\t%s\t%s\t%llu\t%llu\t%llu\n",(unsigned long long)order_num,stu->id_no->buf,stu->name->buf,stu->clazz->buf,stu->identity_number->buf,stu->mark,(unsigned long long)(stu->create_time),stu->year_of_join);
+			order_num++;
+		}
+	}
 }
 int main(int argc,char** argv){
 	vector_t* vec=vector_with_destructor(create_vector(sizeof(student_t)),&student_element_finalize);
@@ -297,7 +338,27 @@ int main(int argc,char** argv){
 			break;
 		case 4:
 			{
-
+				while(TRUE){
+				    unsigned long long operation=read_unsigned_long_long("操作(1.输出所有学生 2.输出指定学号的学生 3.输出指定班级的学生 4.输出指定身份证号的学生)");
+				    switch(operation){
+				    case 1:
+				    	print_students(vec);
+				    	goto jump_out;
+				    case 2:
+                        read_id_no_and_print(vec);
+				    	goto jump_out;
+				    case 3:
+				    	read_clazz_and_print(vec);
+				    	goto jump_out;
+				    case 4:
+				    	read_identity_number_and_print(vec);
+				    	goto jump_out;
+				    default:
+				    	printf("无效操作!请重新输入!\n");
+				    	break;
+				    }
+				}
+				jump_out: ;
 			}
 			break;
 		case 5:
