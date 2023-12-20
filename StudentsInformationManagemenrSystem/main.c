@@ -32,14 +32,16 @@ typedef struct student{
     unsigned long long mark;
     unsigned long long year_of_join;
 } student_t;
-typedef void (*element_destructor)(size_t index_of_element,struct vector* vector);
-typedef struct vector{
+struct vector;
+typedef struct vector vector_t;
+typedef void (*element_destructor)(size_t index_of_element,vector_t* vector);
+struct vector{
 	size_t size_of_element;
 	size_t length;
 	size_t capacity;
 	element_destructor finalizer;
 	void* array;
-} vector_t;
+};
 void* vector_get_element_ptr(vector_t* thiz,size_t index){
 	return (thiz->array)+(thiz->size_of_element)*index;
 }
@@ -143,10 +145,6 @@ string_t* create_non_zero_ended_string_with_length(const char* c_str,size_t len)
     str->is_string_view=FALSE;
     return str;
 }
-void destroy_arbitrary_string(string_t* thiz){
-	if(!thiz) return;
-	if(thiz->is_string_view) destroy_string_view(thiz); else destroy_string(thiz);
-}
 void destroy_string(string_t* thiz){
 	if(!thiz) return;
 	if(thiz->buf)
@@ -156,6 +154,10 @@ void destroy_string(string_t* thiz){
 void destroy_string_view(string_t* thiz){
 	if(!thiz) return;
 	free(thiz);
+}
+void destroy_arbitrary_string(string_t* thiz){
+	if(!thiz) return;
+	if(thiz->is_string_view) destroy_string_view(thiz); else destroy_string(thiz);
 }
 student_t* create_student(time_t create_time,string_t* id_no,string_t* name,string_t* clazz,string_t* identity_number,unsigned long long mark,unsigned long long year_of_join){
 	student_t* stu=(student_t*)malloc(sizeof(student_t));
