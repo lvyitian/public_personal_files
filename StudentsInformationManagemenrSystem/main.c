@@ -17,6 +17,7 @@
 #undef FALSE
 #define FALSE 0
 #define MAX_LINE_LENGTH 99999
+#define ZeroMemory(ptr,length) {for(size_t zero_memory_current_offset=0;zero_memory_current_offset<(length);zero_memory_current_offset++)*((ptr)+zero_memory_current_offset)=0;}
 typedef struct string{
 	char* buf;
 	size_t length;
@@ -24,9 +25,11 @@ typedef struct string{
 } string_t;
 typedef struct student{
 	time_t create_time;
+	string_t* id_no;
     string_t* name;
     string_t* clazz;
-    string_t* identifier_number;
+    string_t* identity_number;
+    unsigned long long mark;
     unsigned long long year_of_join;
 } student_t;
 typedef void (*element_destructor)(size_t index_of_element,struct vector* vector);
@@ -56,9 +59,11 @@ vector_t* create_vector(size_t size_of_element){
 	return create_vector_with_initial_capacity(size_of_element,10);
 }
 void destroy_vector(vector_t* thiz){
+	if(!thiz) return;
 	if(thiz->finalizer)
 		for(size_t i=0;i<thiz->length;i++) thiz->finalizer(i,thiz);
-	free(thiz->array);
+	if(thiz->array)
+	  free(thiz->array);
 	free(thiz);
 }
 void extend_to_capacity(vector_t* thiz,size_t capacity){
@@ -139,45 +144,93 @@ string_t* create_non_zero_ended_string_with_length(const char* c_str,size_t len)
     return str;
 }
 void destroy_arbitrary_string(string_t* thiz){
+	if(!thiz) return;
 	if(thiz->is_string_view) destroy_string_view(thiz); else destroy_string(thiz);
 }
 void destroy_string(string_t* thiz){
-	free(thiz->buf);
+	if(!thiz) return;
+	if(thiz->buf)
+	  free(thiz->buf);
 	free(thiz);
 }
 void destroy_string_view(string_t* thiz){
+	if(!thiz) return;
 	free(thiz);
 }
-student_t* create_student(time_t create_time,string_t* name,string_t* clazz,string_t* identifier_number,unsigned long long year_of_join){
+student_t* create_student(time_t create_time,string_t* id_no,string_t* name,string_t* clazz,string_t* identity_number,unsigned long long mark,unsigned long long year_of_join){
 	student_t* stu=(student_t*)malloc(sizeof(student_t));
 	stu->create_time=create_time;
+	stu->id_no=id_no;
 	stu->name=name;
 	stu->clazz=clazz;
-	stu->identifier_number=identifier_number;
+	stu->identity_number=identity_number;
+	stu->mark=mark;
 	stu->year_of_join=year_of_join;
 	return stu;
 }
-student_t* create_student_with_current_time(string_t* name,string_t* clazz,string_t* identifier_number,unsigned long long year_of_join){
-	student_t* stu=(student_t*)malloc(sizeof(student_t));
-	stu->create_time=time(NULL);
-	stu->name=name;
-	stu->clazz=clazz;
-	stu->identifier_number=identifier_number;
-	stu->year_of_join=year_of_join;
-	return stu;
+student_t* create_student_with_current_time(string_t* id_no,string_t* name,string_t* clazz,string_t* identity_number,unsigned long long mark,unsigned long long year_of_join){
+	return create_student(time(NULL),id_no,name,clazz,identity_number,mark,year_of_join);
 }
 void destroy_student(student_t* thiz){
     destroy_arbitrary_string(thiz->clazz);
+    destroy_arbitrary_string(thiz->id_no);
     destroy_arbitrary_string(thiz->name);
-    destroy_arbitrary_string(thiz->identifier_number);
+    destroy_arbitrary_string(thiz->identity_number);
     free(thiz);
 }
+string_t* read_string(const char* prompt){
+	printf(prompt);
+	char buf[MAX_LINE_LENGTH];
+	if(!fgets(buf,MAX_LINE_LENGTH-1,stdin)) return NULL;
+	return create_string(buf);
+}
+BOOL is_valid_number(string_t* str){
+	if(!str) return FALSE;
+	if(!(str->length)) return FALSE;
+	char* tmp=str->buf;
+    while(tmp-(str->buf)<str->length){
+    	char cur=*tmp;
+    	if(cur=='\r'||cur=='\n') break;
+    	if(cur<'0'||cur>'9') return FALSE;
+    	tmp++;
+    }
+	return TRUE;
+}
+unsigned long long read_unsigned_long_long(const char* field_ident){
+	string_t* field_str=NULL;
+	char tmp_prompt[MAX_LINE_LENGTH];
+    ZeroMemory((char*)tmp_prompt,MAX_LINE_LENGTH);
+    sprintf(tmp_prompt,"请输入%s: ",field_ident);
+	while(!is_valid_number(field_str)){
+	    if(field_str) printf("无效的%s，请重新输入！\n",field_ident);
+	    if(!(field_str=read_string(tmp_prompt))) exit(0);
+	}
+	unsigned long long field_value=atoll(field_str->buf);
+	destroy_arbitrary_string(field_str);
+	return field_value;
+}
 student_t* input_student(BOOL prompt){
-	//姓名、班级、身份证号、入籍年份
-	return NULL;
+	//学号、姓名、班级、身份证号、学分、入籍年份
+    string_t* id_no;
+    if(!(id_no=read_string("请输入学号: "))) exit(0);
+    string_t* name;
+    if(!(name=read_string("请输入姓名: "))) exit(0);
+    string_t* clazz;
+    if(!(clazz=read_string("请输入班级: "))) exit(0);
+    string_t* identity_number;
+    if(!(identity_number=read_string("请输入身份证号: "))) exit(0);
+    unsigned long long mark=read_unsigned_long_long("学分");
+    unsigned long long year_of_join=read_unsigned_long_long("入籍年份");
+	student_t* stu=create_student_with_current_time(id_no,name,clazz,identity_number,mark,year_of_join);
+	return stu;
 }
 void print_students(vector_t* vec){
-	//序号 姓名 班级 身份证号 加入时间 入籍年份
+	//序号 学号 姓名 班级 身份证号 学分 加入时间 入籍年份
+	printf("序号\t学号\t姓名\t班级\t身份证号\t学分\t加入时间(精确到秒的unix时间戳)\t入籍年份\n");
+	for(size_t i=0;i<vec->length;i++){
+		student_t* stu=(student_t*)vector_get_element_ptr(vec,i);
+		printf("%llu\t%s\t%s\t%s\t%s\t%llu\t%llu\t%llu\n",(unsigned long long)(i+1),stu->id_no->buf,stu->name->buf,stu->clazz->buf,stu->identity_number->buf,stu->mark,(unsigned long long)(stu->create_time),stu->year_of_join);
+	}
 }
 void student_element_finalize(size_t index,vector_t* vec){
 	student_t* stu=(student_t*)vector_get_element_ptr(vec,index);
