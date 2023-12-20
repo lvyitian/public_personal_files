@@ -180,19 +180,35 @@ void destroy_student(student_t* thiz){
     destroy_arbitrary_string(thiz->identity_number);
     free(thiz);
 }
+void end_at_first_line(string_t* str){
+	if(!str) return;
+	if(!(str->length)) return;
+	char* tmp=str->buf;
+	while(tmp-(str->buf)<str->length){
+	    char cur=*tmp;
+	    if(cur=='\r'||cur=='\n') {
+	    	ZeroMemory(tmp,str->length-(tmp-(str->buf)));
+	    	return;
+	    }
+	    tmp++;
+	}
+}
 string_t* read_string(const char* prompt){
 	printf(prompt);
 	char buf[MAX_LINE_LENGTH];
 	if(!fgets(buf,MAX_LINE_LENGTH-1,stdin)) return NULL;
-	return create_string(buf);
+	string_t* tmp=create_string(buf);
+	end_at_first_line(tmp);
+	return tmp;
 }
-BOOL is_valid_number(string_t* str){
+BOOL is_valid_number(string_t* str,BOOL check_first_line_only){
 	if(!str) return FALSE;
 	if(!(str->length)) return FALSE;
 	char* tmp=str->buf;
     while(tmp-(str->buf)<str->length){
     	char cur=*tmp;
-    	if(cur=='\r'||cur=='\n') break;
+    	if(!cur) break;
+    	if(check_first_line_only&&(cur=='\r'||cur=='\n')) break;
     	if(cur<'0'||cur>'9') return FALSE;
     	tmp++;
     }
@@ -203,7 +219,7 @@ unsigned long long read_unsigned_long_long(const char* field_ident){
 	char tmp_prompt[MAX_LINE_LENGTH];
     ZeroMemory((char*)tmp_prompt,MAX_LINE_LENGTH);
     sprintf(tmp_prompt,"请输入%s: ",field_ident);
-	while(!is_valid_number(field_str)){
+	while(!is_valid_number(field_str,TRUE)){
 	    if(field_str) printf("无效的%s，请重新输入！\n",field_ident);
 	    if(!(field_str=read_string(tmp_prompt))) exit(0);
 	}
@@ -250,6 +266,8 @@ int main(int argc,char** argv){
 		case 1:
 		    {
 		    	add_to_vector(vec,input_student(TRUE));
+		    	student_t* last_stu=(student_t*)vector_get_element_ptr(vec,vec->length-1);
+		    	printf("已添加学生\"%s\"!\n",last_stu->name->buf);
 		    }
 			break;
 		case 2:
