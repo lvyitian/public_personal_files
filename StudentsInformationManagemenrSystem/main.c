@@ -97,6 +97,7 @@ void remove_from_vector(vector_t* thiz,size_t index){
 }
 void insert_after_into_vector(vector_t* thiz,size_t index,void* element){
 	vector_t* new_vector=create_vector_with_initial_capacity(thiz->size_of_element,thiz->length+1+10);
+	if(index>=thiz->length) index=thiz->length-1;
 	for(size_t i=0;i<=index;i++) add_to_vector(new_vector,(thiz->array)+i*thiz->size_of_element);
 	add_to_vector(new_vector,element);
 	for(size_t i=index+1;i<thiz->length;i++) add_to_vector(new_vector,(thiz->array)+i*thiz->size_of_element);
@@ -106,6 +107,7 @@ void insert_after_into_vector(vector_t* thiz,size_t index,void* element){
 }
 void insert_before_into_vector(vector_t* thiz,size_t index,void* element){
 	vector_t* new_vector=create_vector_with_initial_capacity(thiz->size_of_element,thiz->length+1+10);
+	if(index>thiz->length) index=thiz->length;
 	for(size_t i=0;i<index;i++) add_to_vector(new_vector,(thiz->array)+i*thiz->size_of_element);
 	add_to_vector(new_vector,element);
 	for(size_t i=index;i<thiz->length;i++) add_to_vector(new_vector,(thiz->array)+i*thiz->size_of_element);
@@ -194,7 +196,7 @@ void end_at_first_line(string_t* str){
 	}
 }
 string_t* read_string(const char* prompt){
-	printf(prompt);
+	if(prompt) printf(prompt);
 	char buf[MAX_LINE_LENGTH];
 	if(!fgets(buf,MAX_LINE_LENGTH-1,stdin)) return NULL;
 	string_t* tmp=create_string(buf);
@@ -218,9 +220,9 @@ unsigned long long read_unsigned_long_long(const char* field_ident){
 	string_t* field_str=NULL;
 	char tmp_prompt[MAX_LINE_LENGTH];
     ZeroMemory((char*)tmp_prompt,MAX_LINE_LENGTH);
-    sprintf(tmp_prompt,"请输入%s: ",field_ident);
+    if(field_ident) sprintf(tmp_prompt,"请输入%s: ",field_ident);
 	while(!is_valid_number(field_str,TRUE)){
-	    if(field_str) printf("无效的%s，请重新输入！\n",field_ident);
+	    if(field_str&&field_ident) printf("无效的%s，请重新输入！\n",field_ident);
 	    if(!(field_str=read_string(tmp_prompt))) exit(0);
 	}
 	unsigned long long field_value=atoll(field_str->buf);
@@ -230,15 +232,15 @@ unsigned long long read_unsigned_long_long(const char* field_ident){
 student_t* input_student(BOOL prompt){
 	//学号、姓名、班级、身份证号、学分、入籍年份
     string_t* id_no;
-    if(!(id_no=read_string("请输入学号: "))) exit(0);
+    if(!(id_no=read_string(prompt?"请输入学号: ":NULL))) exit(0);
     string_t* name;
-    if(!(name=read_string("请输入姓名: "))) exit(0);
+    if(!(name=read_string(prompt?"请输入姓名: ":NULL))) exit(0);
     string_t* clazz;
-    if(!(clazz=read_string("请输入班级: "))) exit(0);
+    if(!(clazz=read_string(prompt?"请输入班级: ":NULL))) exit(0);
     string_t* identity_number;
-    if(!(identity_number=read_string("请输入身份证号: "))) exit(0);
-    unsigned long long mark=read_unsigned_long_long("学分");
-    unsigned long long year_of_join=read_unsigned_long_long("入籍年份");
+    if(!(identity_number=read_string(prompt?"请输入身份证号: ":NULL))) exit(0);
+    unsigned long long mark=read_unsigned_long_long(prompt?"学分":NULL);
+    unsigned long long year_of_join=read_unsigned_long_long(prompt?"入籍年份":NULL);
 	student_t* stu=create_student_with_current_time(id_no,name,clazz,identity_number,mark,year_of_join);
 	return stu;
 }
@@ -258,7 +260,7 @@ int main(int argc,char** argv){
 	vector_t* vec=vector_with_destructor(create_vector(sizeof(student_t)),&student_element_finalize);
 	while(TRUE){
 		printf("1.添加学生信息\n2.插入学生信息\n3.删除学生信息\n4.查询学生信息\n5.退出\n");
-		printf("请输入操作:");
+		printf("请输入操作: ");
 		char buf[MAX_LINE_LENGTH];
 		if(!fgets(buf,MAX_LINE_LENGTH-1,stdin)) goto clean_up;
 		int i=atoi(buf);
@@ -272,12 +274,14 @@ int main(int argc,char** argv){
 			break;
 		case 2:
 			{
-
+				print_students(vec);
+				unsigned long long index=read_unsigned_long_long("要插入的位置(序号,会插入到它之前)");
+				insert_before_into_vector(vec,index-1,input_student(TRUE));
 			}
 			break;
 		case 3:
 			{
-
+				print_students(vec);
 			}
 			break;
 		case 4:
