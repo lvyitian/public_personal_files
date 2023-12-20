@@ -43,6 +43,7 @@ struct vector{
 	void* array;
 };
 void* vector_get_element_ptr(vector_t* thiz,size_t index){
+	if(index>=thiz->length) return (void*)-1;
 	return (thiz->array)+(thiz->size_of_element)*index;
 }
 vector_t* create_vector_with_initial_capacity(size_t size_of_element,size_t initial_capacity){
@@ -275,13 +276,23 @@ int main(int argc,char** argv){
 		case 2:
 			{
 				print_students(vec);
-				unsigned long long index=read_unsigned_long_long("要插入的位置(序号,会插入到它之前)");
-				insert_before_into_vector(vec,index-1,input_student(TRUE));
+				unsigned long long numb=read_unsigned_long_long("要插入的位置(序号,会插入到它之前)");
+				student_t* stu=input_student(TRUE);
+				insert_before_into_vector(vec,numb-1,stu);
+				printf("已插入学生\"%s\"!\n",stu->name->buf);
 			}
 			break;
 		case 3:
 			{
 				print_students(vec);
+				unsigned long long numb;
+				while(TRUE){
+					read_unsigned_long_long("要删除的序号");
+					if(numb>vec->length){printf("不存在序号为%llu的学生!请重新输入!\n",numb);continue;} else break;
+				}
+				student_t* stu=(student_t*)vector_get_element_ptr(vec,numb-1);
+				remove_from_vector(vec,numb-1);
+				printf("已删除学生\"%s\"!\n",stu->name->buf);
 			}
 			break;
 		case 4:
