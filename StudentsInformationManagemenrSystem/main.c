@@ -334,6 +334,7 @@ int main(int argc,char** argv){
 				student_t* stu=(student_t*)vector_get_element_ptr(vec,numb-1);
 				remove_from_vector(vec,numb-1);
 				printf("ÒÑÉ¾³ıÑ§Éú\"%s\"!\n",stu->name->buf);
+				destroy_student(stu);
 			}
 			break;
 		case 4:
