@@ -202,9 +202,9 @@ unsigned long long read_unsigned_long_long(const char* field_ident){
 	string_t* field_str=NULL;
 	char tmp_prompt[MAX_LINE_LENGTH];
     ZeroMemory((char*)tmp_prompt,MAX_LINE_LENGTH);
-    sprintf(tmp_prompt,"è¯·è¾“å…¥%s: ",field_ident);
+    sprintf(tmp_prompt,"ÇëÊäÈë%s: ",field_ident);
 	while(!is_valid_number(field_str)){
-	    if(field_str) printf("æ— æ•ˆçš„%sï¼Œè¯·é‡æ–°è¾“å…¥ï¼\n",field_ident);
+	    if(field_str) printf("ÎŞĞ§µÄ%s£¬ÇëÖØĞÂÊäÈë£¡\n",field_ident);
 	    if(!(field_str=read_string(tmp_prompt))) exit(0);
 	}
 	unsigned long long field_value=atoll(field_str->buf);
@@ -212,23 +212,23 @@ unsigned long long read_unsigned_long_long(const char* field_ident){
 	return field_value;
 }
 student_t* input_student(BOOL prompt){
-	//å­¦å·ã€å§“åã€ç­çº§ã€èº«ä»½è¯å·ã€å­¦åˆ†ã€å…¥ç±å¹´ä»½
+	//Ñ§ºÅ¡¢ĞÕÃû¡¢°à¼¶¡¢Éí·İÖ¤ºÅ¡¢Ñ§·Ö¡¢Èë¼®Äê·İ
     string_t* id_no;
-    if(!(id_no=read_string("è¯·è¾“å…¥å­¦å·: "))) exit(0);
+    if(!(id_no=read_string("ÇëÊäÈëÑ§ºÅ: "))) exit(0);
     string_t* name;
-    if(!(name=read_string("è¯·è¾“å…¥å§“å: "))) exit(0);
+    if(!(name=read_string("ÇëÊäÈëĞÕÃû: "))) exit(0);
     string_t* clazz;
-    if(!(clazz=read_string("è¯·è¾“å…¥ç­çº§: "))) exit(0);
+    if(!(clazz=read_string("ÇëÊäÈë°à¼¶: "))) exit(0);
     string_t* identity_number;
-    if(!(identity_number=read_string("è¯·è¾“å…¥èº«ä»½è¯å·: "))) exit(0);
-    unsigned long long mark=read_unsigned_long_long("å­¦åˆ†");
-    unsigned long long year_of_join=read_unsigned_long_long("å…¥ç±å¹´ä»½");
+    if(!(identity_number=read_string("ÇëÊäÈëÉí·İÖ¤ºÅ: "))) exit(0);
+    unsigned long long mark=read_unsigned_long_long("Ñ§·Ö");
+    unsigned long long year_of_join=read_unsigned_long_long("Èë¼®Äê·İ");
 	student_t* stu=create_student_with_current_time(id_no,name,clazz,identity_number,mark,year_of_join);
 	return stu;
 }
 void print_students(vector_t* vec){
-	//åºå· å­¦å· å§“å ç­çº§ èº«ä»½è¯å· å­¦åˆ† åŠ å…¥æ—¶é—´ å…¥ç±å¹´ä»½
-	printf("åºå·\tå­¦å·\tå§“å\tç­çº§\tèº«ä»½è¯å·\tå­¦åˆ†\tåŠ å…¥æ—¶é—´(ç²¾ç¡®åˆ°ç§’çš„unixæ—¶é—´æˆ³)\tå…¥ç±å¹´ä»½\n");
+	//ĞòºÅ Ñ§ºÅ ĞÕÃû °à¼¶ Éí·İÖ¤ºÅ Ñ§·Ö ¼ÓÈëÊ±¼ä Èë¼®Äê·İ
+	printf("ĞòºÅ\tÑ§ºÅ\tĞÕÃû\t°à¼¶\tÉí·İÖ¤ºÅ\tÑ§·Ö\t¼ÓÈëÊ±¼ä(¾«È·µ½ÃëµÄunixÊ±¼ä´Á)\tÈë¼®Äê·İ\n");
 	for(size_t i=0;i<vec->length;i++){
 		student_t* stu=(student_t*)vector_get_element_ptr(vec,i);
 		printf("%llu\t%s\t%s\t%s\t%s\t%llu\t%llu\t%llu\n",(unsigned long long)(i+1),stu->id_no->buf,stu->name->buf,stu->clazz->buf,stu->identity_number->buf,stu->mark,(unsigned long long)(stu->create_time),stu->year_of_join);
@@ -241,8 +241,8 @@ void student_element_finalize(size_t index,vector_t* vec){
 int main(int argc,char** argv){
 	vector_t* vec=vector_with_destructor(create_vector(sizeof(student_t)),&student_element_finalize);
 	while(TRUE){
-		printf("1.æ·»åŠ å­¦ç”Ÿä¿¡æ¯\n2.æ’å…¥å­¦ç”Ÿä¿¡æ¯\n3.åˆ é™¤å­¦ç”Ÿä¿¡æ¯\n4.æŸ¥è¯¢å­¦ç”Ÿä¿¡æ¯\n5.é€€å‡º\n");
-		printf("è¯·è¾“å…¥æ“ä½œ:");
+		printf("1.Ìí¼ÓÑ§ÉúĞÅÏ¢\n2.²åÈëÑ§ÉúĞÅÏ¢\n3.É¾³ıÑ§ÉúĞÅÏ¢\n4.²éÑ¯Ñ§ÉúĞÅÏ¢\n5.ÍË³ö\n");
+		printf("ÇëÊäÈë²Ù×÷:");
 		char buf[MAX_LINE_LENGTH];
 		if(!fgets(buf,MAX_LINE_LENGTH-1,stdin)) goto clean_up;
 		int i=atoi(buf);
@@ -270,7 +270,7 @@ int main(int argc,char** argv){
 		case 5:
 			goto clean_up;
 		default:
-			printf("æ— æ•ˆæ“ä½œï¼Œè¯·é‡æ–°è¾“å…¥ï¼\n");
+			printf("ÎŞĞ§²Ù×÷£¬ÇëÖØĞÂÊäÈë£¡\n");
 			continue;
 		}
 	}
