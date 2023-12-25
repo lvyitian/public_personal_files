@@ -328,7 +328,7 @@ int main(int argc,char** argv){
 				print_students(vec);
 				unsigned long long numb;
 				while(TRUE){
-					read_unsigned_long_long("要删除的序号");
+					numb=read_unsigned_long_long("要删除的序号");
 					if(numb>vec->length){printf("不存在序号为%llu的学生!请重新输入!\n",numb);continue;} else break;
 				}
 				student_t* stu=(student_t*)vector_get_element_ptr(vec,numb-1);
