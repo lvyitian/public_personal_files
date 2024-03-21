@@ -23,10 +23,12 @@ public class Main {
 					System.out.println("阶乘:"+fac(readLong(input,"请输入一个非负整数:")));
 				}catch(Throwable t) {
 					if(t instanceof EOFException || t instanceof NoSuchElementException) {
+						System.out.println();
 						System.out.println("标准输入流关闭,程序退出!");
 						return;
 					}else if(t instanceof IllegalArgumentException) {
 						System.out.println("无效的非负整数!");
+						continue;
 					}
 					throw new RuntimeException(t);
 				}
