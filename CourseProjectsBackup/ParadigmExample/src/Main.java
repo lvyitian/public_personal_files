@@ -10,9 +10,11 @@ import java.util.function.Predicate;
 public class Main {
 	public static class DefaultItemFactory{
 		public static final DefaultItemFactory INSTANCE=new DefaultItemFactory();
+		private DefaultItemFactory(){if(DefaultItemFactory.INSTANCE!=null) throw new IllegalStateException(DefaultItemFactory.class.getSimpleName()+" can only have one instance!");}
 		public ItemBuilder builder() {
 			return new ItemBuilder();
 		}
+		public ItemBuilder builder(Material type){return new ItemBuilder(type);}
 	}
 	public static class ItemBuilder{
 		protected Item item;
