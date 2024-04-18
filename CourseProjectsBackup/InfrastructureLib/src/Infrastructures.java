@@ -48,6 +48,14 @@ public class Infrastructures {
 		public Thread getHolder() {
 			return this.holder;
 		}
+		public void lockAndExecute(@NotNull Runnable r) {
+			try{
+				this.lock();
+				r.run();
+			} finally {
+				this.unlock();
+			}
+		}
 	}
 	public static class Result<T,E extends Throwable>{
 		@Nullable
