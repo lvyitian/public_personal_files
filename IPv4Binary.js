@@ -1,6 +1,6 @@
 function decToBin(num){
     if(typeof(num)!=="number"&&typeof(num)!=="bigint") throw new TypeError("num must be a number or bigint!");
-    if(num===NaN||num===Infinity||num===-Infinity) throw new RangeError("num cannot be "+num+"!");
+    if(num!==num/*isNaN*/||num===Infinity||num===-Infinity) throw new RangeError("num cannot be "+num+"!");
     if(num!==num|0) throw new RangeError("num must be an integer!");
     var res="";
     var prefix=num>0?"":"-";
