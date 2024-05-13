@@ -275,23 +275,22 @@ public class Infrastructures {
 		@NotNull
 		static <T,R> ThrowableFunction<T,R> ofUnchecked(@Nullable Function<T,R> r){return r::apply;}
 	}
-	@Nullable
-	public static <T,R> R tryAndFinally(@NotNull ThrowableFunction<T,R> f,@Nullable T obj,@NotNull ThrowableConsumer<Throwable> fin,@NotNull boolean rethrow) {
-		@Nullable
-		Throwable exc=null;
+	@NotNull
+	public static <T,R> Infrastructures.Result<Optional<R>,? extends Throwable> tryAndFinally(@NotNull ThrowableFunction<T,R> f,@Nullable T obj,@NotNull ThrowableConsumer<Throwable> fin,@NotNull boolean rethrow) {
+		@NotNull
+		Infrastructures.Result<Optional<R>,? extends Throwable> res=Infrastructures.Result.unitErr();
 		try{
-			return f.apply(obj);
-		}catch(@NotNull Throwable t){exc=t;}finally{
-			fin.accept(exc);
-			if(exc!=null&&rethrow) throw Infrastructures.sneakyThrow(exc);
-			return null;
+			res=Infrastructures.Result.ok(Optional.ofNullable(f.apply(obj)));
+		}catch(@NotNull Throwable t){res=Infrastructures.Result.err(t);}finally{
+			fin.accept(res.unwrapErrOr(null));
+			if(res.isErr()&&rethrow) res.getOrThrow();
+			return res;
 		}
 	}
-	@Nullable
-	public static <T,R> R tryAndFinally(@NotNull ThrowableFunction<T,R> f,@Nullable T obj,@NotNull ThrowableConsumer<Throwable> fin) {
+	@NotNull
+	public static <T,R> Infrastructures.Result<Optional<R>,? extends Throwable> tryAndFinally(@NotNull ThrowableFunction<T,R> f,@Nullable T obj,@NotNull ThrowableConsumer<Throwable> fin) {
 		return Infrastructures.tryAndFinally(f,obj,fin,true);
 	}
-	@Nullable
 	public static <T> void tryAndFinally(@NotNull ThrowableConsumer<T> f,@Nullable T obj,@NotNull ThrowableConsumer<Throwable> fin,@NotNull boolean rethrow) {
 		@Nullable
 		Throwable exc=null;
@@ -302,24 +301,23 @@ public class Infrastructures {
 			if(exc!=null&&rethrow) Infrastructures.sneakyThrow(exc);
 		}
 	}
-	@Nullable
 	public static <T> void tryAndFinally(@NotNull ThrowableConsumer<T> f,@Nullable T obj,@NotNull ThrowableConsumer<Throwable> fin) {
 		Infrastructures.tryAndFinally(f,obj,fin,true);
 	}
-	@Nullable
-	public static <T> T tryAndFinally(@NotNull ThrowableSupplier<T> f,@NotNull ThrowableConsumer<Throwable> fin,@NotNull boolean rethrow){
-		@Nullable
-		Throwable exc=null;
+	@NotNull
+	public static <T> Infrastructures.Result<Optional<T>,? extends Throwable> tryAndFinally(@NotNull ThrowableSupplier<T> f,@NotNull ThrowableConsumer<Throwable> fin,@NotNull boolean rethrow){
+		@NotNull
+		Infrastructures.Result<Optional<T>,? extends Throwable> res=Infrastructures.Result.unitErr();
 		try{
-			return f.get();
-		}catch(@NotNull Throwable t){exc=t;}finally{
-			fin.accept(exc);
-			if(exc!=null&&rethrow) throw Infrastructures.sneakyThrow(exc);
-			return null;
+			res=Infrastructures.Result.ok(Optional.ofNullable(f.get()));
+		}catch(@NotNull Throwable t){res=Infrastructures.Result.err(t);}finally{
+			fin.accept(res.unwrapErrOr(null));
+			if(res.isErr()&&rethrow) res.getOrThrow();
+			return res;
 		}
 	}
-	@Nullable
-	public static <T> T tryAndFinally(@NotNull ThrowableSupplier<T> f,@NotNull ThrowableConsumer<Throwable> fin){
+	@NotNull
+	public static <T> Infrastructures.Result<Optional<T>,? extends Throwable> tryAndFinally(@NotNull ThrowableSupplier<T> f,@NotNull ThrowableConsumer<Throwable> fin){
 		return Infrastructures.tryAndFinally(f,fin,true);
 	}
 	public static void tryAndFinally(@NotNull ThrowableRunnable f,@NotNull ThrowableConsumer<Throwable> fin,boolean rethrow){
@@ -336,7 +334,7 @@ public class Infrastructures {
 		Infrastructures.tryAndFinally(f,fin,true);
 	}
 	public static <T extends AutoCloseable> void useAndClose(@NotNull T c,@NotNull ThrowableConsumer<T> con){
-		Infrastructures.tryAndFinally(con,c,exc->c.close());
+		Infrastructures.tryAndFinally(con,c,exc->Infrastructures.tryAndFinally(c::close,closeExc->Optional.ofNullable(closeExc).ifPresent(i->Optional.ofNullable(exc).ifPresent(i::addSuppressed))));
 	}
 	public static void main(String[] args) {
 		Result.unitErr().getOrThrow();
