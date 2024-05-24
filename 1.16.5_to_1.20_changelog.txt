@@ -1,0 +1,85 @@
+1.17 changelog：
+数据包和资源包
+
+    pack.mcmeta里的pack_version版本数字从6升级到7。
+    pack_version被拆分，数据包和资源包现在使用相互独立的版本数字。在版本20w45a时数据包的版本数字仍为6，20w46a升级到7。
+
+1.18 changelog：
+资源包
+
+    将版本提高到8。
+    服务器资源包的大小限制由100MB提高到250MB。
+
+1.19 changelog：
+数据包和资源包
+
+    将数据包版本号变更为10，资源包版本号变更为9。
+
+1.19.3 changelog：
+资源包
+
+    版本号变更为12。
+    移除了适用于版本号为3和4（即扁平化前的版本）的资源包的“fixer”功能，即游戏不再会尝试将这些版本的资源包调整为当前版本。
+    为改进加载性能，方块与物品的纹理现在会在被方块和物品模型处理前加载。
+        默认情况下，不在textures/item和textures/block目录中的纹理不会被自动识别，不会被加载。
+    现在有对应的配置文件，放在新的atlases目录下，用于控制要被包括在纹理图集中的图像。此目录包含以下内容：
+        blocks：由方块和物品模型使用的纹理。
+        banner_patterns、beds、chests、shield_patterns、shulker_boxes、signs：用于渲染一些特殊的模型。
+        mob_effects：在UI中使用的状态效果图标的纹理。
+        paintings：用于画的纹理。
+        particles：用于粒子的纹理（会被particles目录下的文件在其中的textures字段引用）。
+    若多个资源包中均包含这些配置文件，则会根据其在纹理包中的顺序将其合并（与数据包中的标签一样）。
+    这些文件内是一个JSON对象，只包含一个名为sources的列表。
+        加载过程中，sources中的所有条目会以在文件中定义的顺序，在纹理列表中添加或删除新文件。这个列表之后再被方块模型、粒子等引用。
+    source的类型如下：
+        directory：跨越所有命名空间，列出目录与子目录下的所有文件。
+            source：资源包中要被列出的目录，是一个以textures目录为基准的相对路径。
+            prefix：加载时需要附加到精灵图名称前的字符串。
+        single：添加一个单独的文件。
+            resource：资源包中资源的位置（相对于textures的路径，隐含.png扩展名）。
+            sprite：精灵图名称（可选，默认为resource）。
+        filter：移除匹配上给定正则表达式的精灵图。
+            namespace、path：要被移除的ID的正则表则式（只对已在列表中的条目生效），若省略此字段，则匹配任意值。
+        unstitch：从其他的图像中复制矩形区域。
+            resource：资源包中资源的位置（相对于textures的路径，隐含.png扩展名）。
+            divisor_x、divisor_y：用于确定regions所用的单元。
+            regions：从源图片中复制的区域的列表。
+                sprite：精灵图名称。
+                x、y：区域左上角的坐标。
+                width、height：区域的大小。
+            x这种值会通过除以其除数后再乘以实际的图像大小转换为实际图像坐标。
+    例：若资源包中有一文件名为assets/test/textures/fancy/iridium.png，且其source为{"type": "directory", "source": "fancy", "prefix": "custom/"}，此纹理就可以在模型中通过test:custom/iridium的形式使用。
+
+1.19.4 changelog：
+资源包
+
+    现在原版资源包的en_us.json语言文件以字符串键名的字母顺序排列。
+    版本更新至13。
+    附魔光效现在使用两个不同的纹理文件：enchanted_glint_entity.png和enchanted_glint_item.png。
+
+options.txt
+
+    移除了heldItemTooltips。
+
+1.20 changelog：
+数据包
+
+    将数据包版本号更改为15。
+
+资源包
+
+    资源包版本更新至15。
+        更新了minecraft.png的Sprite布局。
+        移除了Programmar Art资源包中用于覆盖的minecraft.png。
+        更新了invite_icon.png的Sprite布局。
+        移除了legacy_unicode字形提供器。
+        移除了uniform字体使用的位图。
+        将uniform字体更新为Unifont 15.0.06。
+            此更改会使很多字符形状发生变动，同时也添加了对新字符的支持。
+            组合字符不再包括覆盖在它们上面的圆圈。
+            向Unifont字体文件内加入了一部分Unicode第2平面的中日韩统一表意文字，以覆盖《通用规范汉字表》的所有汉字（如化学元素及部分地名、人名用字等），以及一部分第3平面的中日韩统一表意文字，例如𰻝𰻝（Biángbiáng）面的前两个字。
+            微调了U+FF00到U+FFEF的全角标点及符号。
+            更新了谚文的字形，最终的新谚文字形总体来说较先前而言更大。
+            微调了其他的部分字形，其中包括臭鼬表情符号（U+1F9A8）的字形。[4]
+        在credits.json中加入了disciplines字段（放在titles的上一级），作为第二级组织结构。
+        
