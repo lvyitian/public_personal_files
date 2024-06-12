@@ -25,7 +25,7 @@ public class Command {
 		this.executor(executor);
 		this.permission=Optional.ofNullable(permission);
 		this.argumentTypeProvider(argumentTypeProvider);
-		this.completer(Optional.ofNullable(completer).orElse((cmd,sender,args)->Arguments.TYPE_COMPLETERS.getOrDefault(cmd.argumentTypeProvider().apply(new Tuple<>(Math.max(0,args.length-1),args)), Collections::singleton).apply(args.length>0?args[args.length-1]:"")));
+		this.completer(Optional.ofNullable(completer).orElse(this.defaultCompleter()));
 	}
 	public String name() {
 		return this.name;
@@ -44,6 +44,9 @@ public class Command {
 	}
 	public Function<Tuple<Integer,String[]>,Class<?>> argumentTypeProvider(){
 		return this.argumentTypeProvider;
+	}
+	public ITabCompleter defaultCompleter(){
+		return (cmd,sender,args)->Arguments.TYPE_COMPLETERS.getOrDefault(cmd.argumentTypeProvider().apply(new Tuple<>(Math.max(0,args.length-1),args)), Collections::singleton).apply(args.length>0?args[args.length-1]:"");
 	}
 	public Optional<ITabCompleter> completer(){
 		return this.completer;
