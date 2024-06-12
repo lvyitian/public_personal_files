@@ -16,11 +16,13 @@ public class Session {
 		return this.name;
 	}
 	public void sendPacket(IPacket packet) {
-		try {
+		synchronized(this.connection){
+			try {
 				DataOutputStream dos=new DataOutputStream(this.connection.getOutputStream());
 				dos.writeInt(packet.type().ordinal());
 				packet.serializePayload(dos);
-		}catch(Throwable t) {throw new RuntimeException(t);}
+			}catch(Throwable t) {throw new RuntimeException(t);}
+		}
 	}
 	public void disconnect() {
 		try {

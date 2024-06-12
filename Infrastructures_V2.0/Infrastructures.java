@@ -21,7 +21,7 @@ public class Infrastructures {
 		public void lock() {
 			outer_loop:
 			while(true) {
-				for(@NotNull long i=0;i<this.threshold;i++) if(this.locked.compareAndSet(false, true)) break outer_loop;
+				for(@NotNull long i=0;i<this.threshold;i++) if(Objects.equals(Thread.currentThread(),this.holder)||this.locked.compareAndSet(false, true)) break outer_loop;
 				try {
 					Thread.sleep(1);
 				}catch(@NotNull final Throwable t) {throw new RuntimeException(t);}
