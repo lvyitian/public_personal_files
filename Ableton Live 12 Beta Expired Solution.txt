@@ -1,0 +1,11 @@
+https://audiosex.pro/threads/ableton-live-12-beta-expired.74922/
+If anyone NEEDS to continue running beta for fear or projects not opening in the newest Live 12 or for whatever reason.
+
+    Look up a program called RunAsDate
+    Start RunAsDate.exe as admin
+    Browse to your exe for Live12 beta (C:\ProgramData\Ableton\Live 12 Beta\Program)
+    Set date to any date before 4/1/2024
+    Create a name for new shortcut next to Create Desktop Shortcut
+    Click Create Desktop Shortcut
+
+Launch Live 12 beta using the newly created shortcut and you should be okay. 
