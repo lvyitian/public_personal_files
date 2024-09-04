@@ -1,0 +1,117 @@
+<canvas id="c1" width=600 height=600></canvas>
+<script>
+var ctx=c1.getContext("2d");
+var root=[];
+function Player(){
+  if(this.constructor!==Player) throw new SyntaxError("Player is not a function, it is a constructor!");
+  this.x=0;
+  this.y=0;
+  this.width=80;
+  this.height=80;
+  this.visible=true;
+  this.color="#0000ff";
+  this.gravity=true;
+  this.gravityMultiplier=2;
+  this.noClip=false;
+  this.canMove=true;
+  this.speed=1;
+  this.jumping=false;
+  this.jumpSpeed=2;
+  this.jumpHeight=150;
+  this.jumped=0;
+  this.jumpFalling=false;
+}
+var w=false,a=false,s=false,d=false,space=false;
+document.body.onkeydown=evt=>{
+switch(evt.code){
+case "KeyW":
+w=true;
+break;
+case "KeyA":
+a=true;
+break;
+case "KeyS":
+s=true;
+break;
+case "KeyD":
+d=true;
+break;
+case "Space":
+space=true;
+break;
+default:
+break;
+}
+};
+document.body.onkeyup=evt=>{
+switch(evt.code){
+case "KeyW":
+w=false;
+break;
+case "KeyA":
+a=false;
+break;
+case "KeyS":
+s=false;
+break;
+case "KeyD":
+d=false;
+break;
+case "Space":
+space=false;
+break;
+default:
+break;
+}
+};
+document.body.onresize=_=>{ctx.canvas.width=document.body.clientWidth;ctx.canvas.height=document.body.clientHeight;};
+document.body.onresize(null);
+document.body.onblur=_=>{w=false;a=false;s=false;d=false;space=false;};
+var lastUpdateTime=null;
+var update=()=>{
+  try{
+  ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+  for(cur of root){
+    try{
+      if(cur.visible) {ctx.fillStyle=cur.color;ctx.fillRect(cur.x,cur.y,cur.width,cur.height);}
+      var fallenY=cur.y+cur.gravityMultiplier;
+      fallenY=Math.min(ctx.canvas.height-cur.height,fallenY);
+      if(cur.jumpFalling||(cur.gravity && !cur.noClip && !cur.jumping)) {
+        var deltaJumped=fallenY-cur.y;
+        cur.y=fallenY;
+        if(cur.jumped-deltaJumped<0) deltaJumped=cur.jumped;
+        cur.jumped-=deltaJumped;
+        if(cur.jumped<=0||deltaJumped===0) {
+          cur.jumpFalling=false;
+          cur.jumped=0;
+          cur.jumping=false;
+        }
+      }
+      if(cur.jumping&&!cur.jumpFalling){
+        var deltaY=cur.jumpSpeed;
+        if(cur.jumped+deltaY>cur.jumpHeight) deltaY=cur.jumpHeight-cur.jumped;
+        if(cur.y-deltaY<0) deltaY=cur.y;
+        if(deltaY<=0) 
+          cur.jumpFalling=true;
+        else{ 
+          cur.jumped+=deltaY;
+          cur.y-=deltaY;
+        }
+      }
+      if(cur.canMove) {
+        if(a) cur.x=cur.noClip?cur.x-cur.speed:Math.max(0,cur.x-cur.speed);
+        if(d) cur.x=cur.noClip?cur.x+cur.speed:Math.min(ctx.canvas.width-cur.width,cur.x+cur.speed);
+        if(cur.noClip){
+          if(w) cur.y-=cur.speed;
+          if(s) cur.y+=cur.speed;
+        }else if(!cur.jumping) if(space) cur.jumping=true;
+      }
+    }finally{
+      ctx.fillStyle="#000000";
+    }
+  }
+  }finally{lastUpdateTime=new Date();}
+};
+setInterval(()=>update(),1);
+root.push(new Player())
+</script>

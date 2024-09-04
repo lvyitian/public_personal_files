@@ -1,0 +1,40 @@
+function shift(arr,original,current){
+    var ret=[];
+    var clonedCount=0;
+    var i=0;
+    for(;clonedCount<current;i++){
+        if(i===original) continue;
+        ret.push(arr[i]);
+        clonedCount++;
+    }
+    ret.push(arr[original]);
+    for(let j=i;j<arr.length;j++){
+        if(j===original) continue;
+        ret.push(arr[j]);
+    }
+    return ret;
+}
+
+function toBinaryString(num){
+    var ret="",neg=num<0;
+    num=Math.abs(num);
+    while(num!=1){
+        ret=num%2+ret;
+        num>>=1;
+    }
+    ret=num+ret;
+    if(neg) ret="-"+ret;
+    return ret;
+}
+
+function alignTo8Bit(binaryStr){
+    while(binaryStr.length<8) binaryStr="0"+binaryStr;
+    return binaryStr;
+}
+
+function IPv4ToBin(ipv4){
+    var arr=ipv4.split(".");
+    var ret=[];
+    for(i of arr) ret.push(alignTo8Bit(toBinaryString(i)));
+    return ret;
+}
