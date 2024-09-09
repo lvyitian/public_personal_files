@@ -1,0 +1,27 @@
+<title>Change Color</title>
+<h1><b>CSS property is prior to HTML property! HTML property will be overridden by CSS property when using at the same time!</b></h1>
+<button id="b1">Red</button>
+<button id="b2">Green</button>
+<button id="b3">Blue</button>
+<button id="b4">Reset</button>
+<button id="b5">Current Method: CSS</button>
+<script>
+var cssMethod=true;
+var applyColorCSS=c=>document.body.style.backgroundColor=c;
+var applyColorHTML=c=>document.body.bgColor=c;
+var applyColor=applyColorCSS;
+b1.onclick=evt=>applyColor("red");
+b2.onclick=evt=>applyColor("green");
+b3.onclick=evt=>applyColor("blue");
+b4.onclick=evt=>applyColor("");
+b5.onclick=evt=>{
+cssMethod=!cssMethod;
+if(cssMethod){
+b5.textContent="Current Method: CSS";
+applyColor=applyColorCSS;
+}else{
+b5.textContent="Current Method: HTML";
+applyColor=applyColorHTML;
+}
+};
+</script>
