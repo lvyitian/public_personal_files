@@ -13,7 +13,7 @@ void clearScreen(void) {
 }
 #endif /* _WIN32 */
 
-#ifdef __unix__
+#if defined(__unix__) || defined(__APPLE__) || defined(__linux)
 #include <stdio.h>
 void clearScreen(void) {
     printf("\033[2J\033[3J\033[1;1H");
