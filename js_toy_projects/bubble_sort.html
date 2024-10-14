@@ -1,0 +1,16 @@
+<script>
+var arr=[];
+for(let i=0;i<10;i++) arr[i]=Math.round(Math.random()*100);
+document.write("原数组:&nbsp;");
+for(i of arr) document.write(i+"&nbsp;");
+document.write("<br></br>");
+for(let i=0;i<arr.length;i++)
+  for(let j=0;j<arr.length-i-1;j++)
+    if(arr[j]>arr[j+1]){
+      var tmp=arr[j];
+      arr[j]=arr[j+1];
+      arr[j+1]=tmp;
+    }
+document.write("排序后数组:&nbsp;");
+for(i of arr) document.write(i+"&nbsp;");
+</script>

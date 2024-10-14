@@ -1,0 +1,13 @@
+<script>
+var target=[3,12,8,15,22,5,11,18,2];
+var odd=target.filter(i=>i&1);
+var even=target.filter(i=>~i&1);
+var comparator=(a,b)=>a-b;
+odd.sort(comparator);
+document.write("奇数: ");
+for(i of odd) document.write(i+"&nbsp;");
+document.write("<br></br>");
+even.sort(comparator);
+document.write("偶数: ");
+for(i of even) document.write(i+"&nbsp;");
+</script>

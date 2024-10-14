@@ -1,0 +1,8 @@
+<b>半径:</b>
+<input type="text" id="radius" value="1"></input>
+<p><b id="len">周长:</b></p>
+<p><b id="area">面积:</b></p>
+<script>
+radius.oninput=evt=>{len.textContent="周长:"+(2*Math.PI*parseFloat(radius.value));area.textContent="面积:"+(Math.PI*Math.pow(parseFloat(radius.value),2));}
+radius.oninput(null);
+</script>

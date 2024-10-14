@@ -1,0 +1,21 @@
+<script>
+function mapToProxiedArray(arr){
+  var map=function(f){var r=mapToProxiedArray([]);for(i of this) r.push(f(i)); return r;};
+  return new Proxy(arr,{get:function(obj,name){return name==="map"?map.bind(obj):obj[name];},set:function(obj,name,val){if(name!=="map")obj[name]=val;}});
+}
+Array=new Proxy(Array,{
+  get:function(obj,name){return obj[name];},
+  set:function(obj,name,val){obj[name]=val;},
+  apply:function(obj,thiz,args){obj.bind(thiz).call(...args);},
+  construct:function(obj,args,cons){var res=new obj(...args);res.map=function(f){var r=new Array();for(i of this) r.push(f(i)); return r;};return res;}
+});
+var callAsBound=function(){return arguments[1].bind(arguments[0])(...new Array(...arguments).slice(2));};
+var callAsBoundReflect=function(){return arguments[1].bind(arguments[0]).call(arguments[0],...new Array(...arguments).slice(2));};
+var callAsReflect=function(){return arguments[1].call(arguments[0],...new Array(...arguments).slice(2));};
+var callFunc=function(){return arguments[0](...new Array(...arguments).slice(1));};
+var arr=new Array(1,2,3);
+arr.map=function(f){var r=new Array();for(i of this) r.push(f(i)); return r;}
+var arr2=arr.map(i=>i.toString());
+var inspector=f=>i=>{f(i);return i;};
+console.log(arr2.map(inspector(console.log)));
+</script>

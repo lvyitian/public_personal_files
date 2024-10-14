@@ -1,0 +1,12 @@
+<script>
+var s="I am a student";
+var res=-1;
+for(let i=0;i<s.length;i++)
+  if(s.charAt(i)=='t'){
+    res=i;
+    break;
+  }
+if(res!=-1)
+  document.write("loc: "+(res+1));
+else document.write("not found");
+</script>

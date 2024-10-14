@@ -1,0 +1,32 @@
+<script>
+(function(){
+var num1=prompt("请输入第一个数"),op=prompt("请输入运算(+ - * /)"),num2=prompt("请输入第二个数");
+if(isNaN(num1)||isNaN(num2)){
+alert("非法数字");
+return;
+}
+var res;
+switch(op){
+case "+":
+  res=parseFloat(num1)+parseFloat(num2);
+  break;
+case "-":
+  res=parseFloat(num1)-parseFloat(num2);
+  break;
+case "*":
+  res=parseFloat(num1)*parseFloat(num2);
+  break;
+case "/":
+  if(num2==0){
+    alert("除数不能为0");
+    return;
+  }
+  res=parseFloat(num1)/parseFloat(num2);
+  break;
+default:
+  alert("非法运算");
+  return;
+}
+alert(num1+op+num2+"="+res);
+})();
+</script>

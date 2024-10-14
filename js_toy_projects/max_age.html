@@ -1,0 +1,14 @@
+<script>
+function Student(name,age){
+  if(this.constructor!==Student) throw new SyntaxError("Student is a constructor, it is not a function!");
+  this.name=name;
+  this.age=age;
+  this.toString=function(){return "name: "+this.name+" age:"+this.age;};
+}
+var arr=[new Student("Tim",9),new Student("Marry",10),new Student("Allen",7),new Student("Jack",8),new Student("Steven",12)];
+var max_age=arr[0];
+for(i of arr){
+  if(i.age>max_age.age) max_age=i;
+}
+document.write(max_age);
+</script>

@@ -1,0 +1,16 @@
+<script>
+var arr=[];
+for(let i=0;i<10;i++) arr[i]=Math.round(Math.random()*100);
+document.write("原数组:&nbsp;");
+for(i of arr) document.write(i+"&nbsp;");
+document.write("<br></br>");
+for(let i=0;i<arr.length;i++){
+var max_index=0;
+for(let j=0;j<arr.length-i;j++) if(arr[j]>arr[max_index]) max_index=j;
+var tmp=arr[max_index];
+arr.splice(max_index,1);
+arr.splice(arr.length-i,0,tmp)
+}
+document.write("排序后数组:&nbsp;");
+for(i of arr) document.write(i+"&nbsp;");
+</script>

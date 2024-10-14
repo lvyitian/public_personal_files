@@ -1,0 +1,18 @@
+<script>
+var arr=[];
+var n=parseInt(prompt("n"));
+for(let i=1;i<=n;i++) arr.push(i);
+var m=parseInt(prompt("m"));
+var to_be_removed=m-1;
+var cycle=m;
+while(arr.length>1){
+  if(cycle>=m) {
+    arr.splice(to_be_removed%arr.length,1);
+    cycle=0;
+  }
+  cycle++;
+  to_be_removed++;
+  to_be_removed%=arr.length;
+}
+document.write(arr[0]);
+</script>

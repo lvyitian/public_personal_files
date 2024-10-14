@@ -1,0 +1,22 @@
+<style>
+*{
+line-height: 8px;
+letter-spacing: 4px;
+font-family: "Courier New";
+font-size: 20px;
+}
+</style>
+<script>
+var depth=parseInt(prompt("请输入层数"));
+for(let i=depth-1;i>=0;i--)
+{
+for(let j=0;j<i;j++) document.write("&nbsp;");
+for(let j=0;j<(depth-1-i)*2+1;j++) document.write("*");
+document.write("<br></br>");
+}
+for(let i=0;i<depth-1;i++){
+  for(let j=0;j<i+1;j++) document.write("&nbsp;");
+  for(let j=0;j<(depth-1)*2+i*(-2)-1;j++) document.write("*");
+  document.write("<br></br>");
+}
+</script>

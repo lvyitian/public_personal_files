@@ -1,0 +1,8 @@
+<script>
+var arr=[1,2,3];
+arr.map=function(f){var r=[];for(i of this) r.push(f(i)); return r;}
+var arr2=arr.map(i=>i.toString());
+arr2.map=arr.map;
+var inspector=f=>i=>{f(i);return i;};
+console.log(arr2.map(inspector(console.log)));
+</script>

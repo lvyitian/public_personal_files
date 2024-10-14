@@ -1,0 +1,16 @@
+<span>Input:</span>
+<input type="text" id="input" oninput="if(toLower.checked) output.value=input.value.toLowerCase(); else output.value=input.value.toUpperCase();"></input>
+<br></br>
+<fieldset>
+<div>
+<input type="radio" id="toLower" name="case" value="lower" onclick="input.oninput(null);" checked></input>
+<label for="lower">toLowerCase</label>
+</div>
+<div>
+<input type="radio" id="toUpper" name="case" value="upper" onclick="input.oninput(null);"></input>
+<label for="upper">toUpperCase</label>
+</div>
+</fieldset>
+<br></br>
+<span>Output:</span>
+<input type="text" id="output"></input>

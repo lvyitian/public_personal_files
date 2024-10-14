@@ -1,0 +1,47 @@
+<script>
+function binarySearch(arr,elem){
+  if(arr.length<=0) return -1;
+  var isAscending=arr[0]-arr[arr.length-1]<0;
+  if(!checkSorted(arr,isAscending)) throw new Error("array is not sorted!");
+  var current=(arr.length/2)|0,lastCurrent=-1;
+  while(true){
+    lastCurrent=current;
+    if(arr[current]>elem){
+      if(isAscending) {current/=2;current|=0;} else {current+=arr.length;current/=2;current|=0;}
+    }else if(arr[current]<elem){
+      if(isAscending) {current+=arr.length;current/=2;current|=0;} else {current/=2;current|=0;}
+    }else if(arr[current]===elem||(elem!==elem&&arr[current]!==arr[current]))/*this is to handle NaN*/ return current;
+    if(current>=arr.length||current===lastCurrent) break;
+  }
+  return -1;
+}
+function checkSorted(arr,asc){
+  if(arr.length<=0) return true;
+  for(let i=1,last_elem=arr[i-1];i<arr.length;last_elem=arr[i++]){
+    if(asc) {
+      if(arr[i]<last_elem) return false;
+    } else {
+      if(arr[i]>last_elem) return false;
+    }
+  }
+  return true;
+}
+function test(arr){
+document.write("["+arr.toString()+"]");
+document.write("<br></br>");
+for(i of arr) {
+  document.write("index of "+i+" is "+binarySearch(arr,i));
+  document.write("<br></br>");
+}
+var not_exist=NaN;
+document.write("index of "+not_exist+" is "+binarySearch(arr,not_exist));
+document.write("<br></br>");
+}
+test([1,2,3]);
+test([3,2,1]);
+test([1,2]);
+test([2,1]);
+try{
+test([1,2,1]);
+}catch(e){document.write(e);}finally{document.write("<br></br>");}
+</script>

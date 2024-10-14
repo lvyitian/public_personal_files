@@ -1,0 +1,15 @@
+<script>
+function Student(stuno,name,grade){
+  if(this.constructor!==Student) throw new SyntaxError("Student is a constructor, it is not a function!");
+  this.stuno=stuno;
+  this.name=name;
+  this.getGrade=function(){return grade;};
+  Object.defineProperty(this,"grade",{get:function(){return grade;}});
+  this.toString=function(){return "{stuno:"+this.stuno+",name: "+this.name+",grade:"+this.grade+"}";};
+}
+var arr=[new Student(1001,"小曼",224),new Student(1002,"小明",242),new Student(1003,"小华",268)];
+for(i of arr){
+  document.write(i.stuno+i.name+"同学的总分是:"+i.grade);
+  document.write("<br></br>");
+}
+</script>
