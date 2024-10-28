@@ -1,0 +1,68 @@
+<input id="countDown" style="display: flex; font-size: 30px; width: 250px; height: 70px; text-align: center; margin-bottom: 10px;"></span>
+<button id="buttonStart">开始</button>
+<script>
+function alignToLength(num,len){
+num=num.toString();
+while(num.length<len)
+  num="0"+num;
+return num;
+}
+function formatDuration(duration){
+duration=+duration; //convert to number
+var isNegative=duration<0;
+duration=Math.abs(duration);
+var millis=duration%1000;
+var hours=(duration/1000/60/60)|0;
+var minutes=((duration-millis-hours*60*60*1000)/1000/60)|0;
+var seconds=((duration-millis-hours*60*60*1000-minutes*60*1000)/1000)|0;
+return (isNegative?"-":"")+alignToLength(hours,2)+":"+alignToLength(minutes,2)+":"+alignToLength(seconds,2)+"."+alignToLength(millis,3);
+}
+function parseDurationString(duration){
+    duration=duration.toString();
+    if(duration.trim().length===0) duration="0";
+      var isNegative=duration.trim().startsWith("-");
+      if(isNegative) duration=duration.trim().substring(1);
+      var tmp=duration.split(":");
+      var secondsWithMillis=tmp[tmp.length-1];
+      var seconds,millis=0;
+      if(secondsWithMillis.includes(".")) {
+        var tmpArr=secondsWithMillis.split(".");
+        if(tmpArr.length>2) throw new Error("时间字符串的毫秒部分中只能包含一个点");
+      millis=parseInt(tmpArr[1]);
+      seconds=parseInt(tmpArr[0]);
+    }else seconds=parseInt(secondsWithMillis);
+    var minutes=0;
+    if(tmp.length>1)
+      minutes=parseFloat(tmp[tmp.length-2]);
+    var hours=0;
+    if(tmp.length>2)
+      hours=parseFloat(tmp[tmp.length-3]);
+    return (isNegative?-1:1)*(hours*60*60*1000+minutes*60*1000+seconds*1000+millis);
+}
+var countDownTaskId;
+buttonStart.onclick=e=>{
+  if(e.target.textContent==="开始"){
+    e.target.textContent="停止";
+    countDown.readOnly=true;
+    var duration;
+    try{
+      duration=parseDurationString(countDown.value);
+    }catch(exc){
+        alert(exc);
+        e.target.onclick({target:e.target});
+        return;
+    }
+    var start=new Date();
+    countDownTaskId=setInterval(()=>
+      countDown.value=formatDuration(duration-(new Date()-start))
+    ,1);
+  }else{
+    e.target.textContent="开始";
+    if(countDownTaskId) {
+      clearInterval(countDownTaskId);
+      countDownTaskId=undefined;
+    }
+    countDown.readOnly=false;
+  }
+};
+</script>

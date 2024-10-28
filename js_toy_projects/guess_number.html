@@ -1,0 +1,24 @@
+<script>
+var num=(Math.random()*10)|0; //[0,10)
+while(true){
+var n=prompt("请输入一个0到9之间的数：");
+if(n!=(n=parseInt(n))||(n!==n)) {
+alert("无效的整数");
+continue;
+}
+if(n<0||n>9){
+  alert("输入超出0到9的范围");
+  continue;
+}
+if(n>num){
+alert("猜大了");
+continue;
+}else if(n<num){
+alert("猜小了");
+continue;
+}else{
+alert("猜对了");
+break;
+}
+}
+</script>

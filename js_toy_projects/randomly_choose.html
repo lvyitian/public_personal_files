@@ -1,0 +1,19 @@
+<span id="label_name"></span>
+<br/>
+<button id="button_start">开始</button>
+<script>
+var arr=["A","B","C","D","E","F","G"];
+var timer_id;
+button_start.onclick=e=>{
+  if(e.target.textContent==="开始"){
+    e.target.textContent="停止";
+    timer_id=setInterval(()=>{
+      var r=Math.abs((Math.random()*1e15)|0)%arr.length;
+      label_name.textContent=arr[r];
+    },20);
+  }else{
+    e.target.textContent="开始";
+    clearInterval(timer_id);
+  }
+};
+</script>

@@ -1,0 +1,12 @@
+<span id="label1" style="display: block; width: 250px; height: 50px; background-color: rgb(0,162,232); text-align: center; vertical-align: middle; margin: auto auto; border: 2px solid rgb(255,128,64); font-size: 17px;"></span>
+<script>
+function alignToLength(s,len){
+s=s.toString();
+while(s.length<len) s="0"+s;
+return s;
+}
+setInterval(()=>{
+  var t=new Date();
+  label1.textContent=t.getFullYear()+"年"+alignToLength(t.getMonth()+1,2)+"月"+alignToLength(t.getDate(),2)+"日"+alignToLength(t.getHours(),2)+"时"+alignToLength(t.getMinutes(),2)+"分"+alignToLength(t.getSeconds(),2)+"秒"+alignToLength(t.getMilliseconds(),3)+"毫秒";
+},1);
+</script>
