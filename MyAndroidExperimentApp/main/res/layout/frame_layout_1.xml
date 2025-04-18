@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <Button android:layout_width="300dp" android:layout_height="300dp" android:layout_gravity="left|top" android:background="#ff0000" />
+    <Button android:layout_width="300dp" android:layout_height="300dp" android:layout_gravity="center" android:background="#00ff00" />
+    <Button android:layout_width="300dp" android:layout_height="300dp" android:layout_gravity="right|bottom" android:background="#0000ff" />
+
+</FrameLayout>

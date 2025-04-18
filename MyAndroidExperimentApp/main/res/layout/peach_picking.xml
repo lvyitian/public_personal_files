@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tree_bg">
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="94dp"
+        android:layout_marginTop="240dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/tree" />
+
+    <ImageView
+        android:id="@+id/peach_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="270dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/peach_pic" />
+
+    <ImageView
+        android:id="@+id/peach_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/peach_1"
+        app:srcCompat="@drawable/peach_pic" />
+
+    <ImageView
+        android:id="@+id/peach_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toEndOf="@+id/peach_2"
+        app:layout_constraintTop_toBottomOf="@+id/peach_1"
+        app:srcCompat="@drawable/peach_pic" />
+
+    <ImageView
+        android:id="@+id/peach_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/peach_2"
+        app:srcCompat="@drawable/peach_pic" />
+
+    <ImageView
+        android:id="@+id/peach_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toEndOf="@+id/peach_4"
+        app:layout_constraintTop_toBottomOf="@+id/peach_1"
+        app:srcCompat="@drawable/peach_pic" />
+
+    <ImageView
+        android:id="@+id/peach_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toEndOf="@+id/peach_5"
+        app:layout_constraintTop_toBottomOf="@+id/peach_3"
+        app:srcCompat="@drawable/peach_pic" />
+
+    <Button
+        android:id="@+id/button_return_to_entrance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="204dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/btn_peach"
+        android:text="退出桃园"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+</android.support.constraint.ConstraintLayout>

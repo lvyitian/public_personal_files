@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingTop="60dp" android:paddingLeft="20dp" android:paddingRight="20dp">
+    <TextView
+        android:text="@string/poem1_title"
+        style="@style/poem_title"
+        />
+    <TextView
+        android:text="@string/poem1_1"
+        style="@style/poem"
+        />
+    <TextView
+        android:text="@string/poem1_2"
+        style="@style/poem"
+        />
+    <TextView
+        android:text="@string/poem1_3"
+        style="@style/poem"
+        />
+
+</LinearLayout>
