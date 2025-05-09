@@ -45,7 +45,7 @@ public class EnterPeachPickingActivity extends AppCompatActivity {
             Runnable[] r={null};
             r[0]=()->{
                 Optional.ofNullable(PeachPickingActivity.getInstance()).filter(i->!i.isFinishing()).ifPresent(PeachPickingActivity::finish);
-                if(GradeActivity.getInstance()!=null) {
+                if(PeachPickingActivity.getInstance()!=null) {
                     synchronized(EnterPeachPickingActivity.this){
                         EnterPeachPickingActivity.this.isWaiting=true;}
                     new Thread(() -> EnterPeachPickingActivity.this.runOnUiThread(r[0])).start();

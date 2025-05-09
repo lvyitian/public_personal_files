@@ -64,6 +64,21 @@
         <activity android:name=".ReimplementedPeachPickingActivity">
 
         </activity>
+        <activity android:name=".ExternalIntentTestActivity">
+
+        </activity>
+        <activity android:name=".StartModeTestActivity">
+
+        </activity>
+        <activity android:name=".StartModeTest2Activity" android:launchMode="singleTask">
+
+        </activity>
+        <activity android:name=".StartModeTest3Activity" android:launchMode="singleTop">
+
+        </activity>
+        <activity android:name=".NavigationBarActivity" android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>
