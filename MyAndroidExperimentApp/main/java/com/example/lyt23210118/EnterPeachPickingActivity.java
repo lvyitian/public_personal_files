@@ -113,7 +113,8 @@ public class EnterPeachPickingActivity extends AppCompatActivity {
             Log.i(this.getClass().getSimpleName(), new Throwable().getStackTrace()[0].toString());
             super.onDestroy();
         }finally {
-            synchronized(EnterPeachPickingActivity.class){instance=null;}
+            if(!this.isFinishing()&&!this.isDestroyed()) return;
+            if(instance==this) synchronized(EnterPeachPickingActivity.class){instance=null;}
         }
     }
 

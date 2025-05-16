@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
         //this.startActivity(new Intent(this,ReimplementedEnterPeachPickingActivity.class));
         //this.startActivity(new Intent(this,ExternalIntentTestActivity.class));
         //this.startActivity(new Intent(this,StartModeTestActivity.class));
-        this.startActivity(new Intent(this,NavigationBarActivity.class));
+        //this.startActivity(new Intent(this,NavigationBarActivity.class));
+        this.startActivity(new Intent(this,OrderActivity.class));
     }
 
     public void initializeComponentFields(){

@@ -79,6 +79,9 @@
         <activity android:name=".NavigationBarActivity" android:theme="@style/Theme.AppCompat.NoActionBar">
 
         </activity>
+        <activity android:name=".OrderActivity" android:label="菜单">
+
+        </activity>
     </application>
 
 </manifest>

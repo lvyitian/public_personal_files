@@ -47,7 +47,7 @@ public class NavigationBarActivity extends BaseInteroperableActivity<NavigationB
         transaction.commit();
     }
 
-    public Stream<View> getAllViews(View parent){
+    public static Stream<View> getAllViews(View parent){
         return Stream.of(R.id.class.getDeclaredFields()).map(ReimplementedPeachPickingActivity::makeAccessible).map(ThrowsFunction.of(i->i.get(null))).map(i->((Number)i).intValue()).filter(i->i!=parent.getId()).map(parent::findViewById).filter(Objects::nonNull).map(View.class::cast);
     }
 

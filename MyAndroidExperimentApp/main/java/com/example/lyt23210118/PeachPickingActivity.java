@@ -104,7 +104,8 @@ public class PeachPickingActivity extends AppCompatActivity {
             this.callback.ifPresent(i->i.accept(this.picked));
             super.onDestroy();
         }finally {
-            synchronized(PeachPickingActivity.class){instance=null;}
+            if(!this.isFinishing()&&!this.isDestroyed()) return;
+            if(instance==this) synchronized(PeachPickingActivity.class){instance=null;}
         }
     }
 

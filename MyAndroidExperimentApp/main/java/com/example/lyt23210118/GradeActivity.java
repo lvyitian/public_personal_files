@@ -75,7 +75,8 @@ public class GradeActivity extends AppCompatActivity {
             Log.i(this.getClass().getSimpleName(), new Throwable().getStackTrace()[0].toString());
             super.onDestroy();
         }finally {
-            synchronized(GradeActivity.class){instance=null;}
+            if(!this.isFinishing()&&!this.isDestroyed()) return;
+            if(instance==this) synchronized(GradeActivity.class){instance=null;}
         }
     }
 

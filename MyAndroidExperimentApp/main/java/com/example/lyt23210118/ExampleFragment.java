@@ -9,8 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.function.Consumer;
+
 public class ExampleFragment extends Fragment {
     public final int layout;
+    public final CopyOnWriteArraySet<Consumer<Bundle>> onCreateCallbacks=new CopyOnWriteArraySet<>();
     public ExampleFragment(){this(R.layout.fragment_1);}
     public ExampleFragment(int layout){this.layout=layout;}
     @Override
@@ -21,7 +25,7 @@ public class ExampleFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
+        this.onCreateCallbacks.forEach(i->i.accept(savedInstanceState));
         super.onCreate(savedInstanceState);
     }
 

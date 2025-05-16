@@ -110,7 +110,8 @@ public class GradeSubmitActivity extends AppCompatActivity {
             Log.i(this.getClass().getSimpleName(), new Throwable().getStackTrace()[0].toString());
             super.onDestroy();
         }finally {
-            synchronized(GradeSubmitActivity.class){instance=null;}
+            if(!this.isFinishing()&&!this.isDestroyed()) return;
+            if(instance==this) synchronized(GradeSubmitActivity.class){instance=null;}
         }
     }
 

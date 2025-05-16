@@ -39,9 +39,10 @@ public class BaseInteroperableActivity<T extends BaseInteroperableActivity<T>> e
     {
         synchronized (this.getClass()){
             if(instances.containsKey(this.getClass())) throw new IllegalStateException(this.getClass().getSimpleName()+" is a singleton and can only have one instance!");
-            instances.put(cast(this.getClass()),new WeakReference<>(this));
+            instances.put(cast(this.getClass()),cast(this.weakThis=new WeakReference<>(cast(this))));
         }
     }
+    public final WeakReference<T> weakThis;
     private static final ConcurrentHashMap<Class<? extends BaseInteroperableActivity<?>>, Optional<Void>> locks=new ConcurrentHashMap<>();
     public final CopyOnWriteArraySet<Consumer<T>> destroyCallbacks=new CopyOnWriteArraySet<>();
     @SuppressWarnings({"unchecked-cast"})
@@ -103,7 +104,8 @@ public class BaseInteroperableActivity<T extends BaseInteroperableActivity<T>> e
             this.destroyCallbacks.forEach(i->i.accept(cast(BaseInteroperableActivity.this)));
             super.onDestroy();
         }finally{
-            instances.remove(this.getClass());
+            if(!this.isFinishing()&&!this.isDestroyed()) return;
+            instances.remove(this.getClass(),this.weakThis);
         }
     }
 
@@ -118,8 +120,10 @@ public class BaseInteroperableActivity<T extends BaseInteroperableActivity<T>> e
         }).start();
     }
 
+    protected void finalizing(){}
+
     @Override
-    protected void finalize(){
-        instances.remove(this.getClass());
+    protected final void finalize(){
+        try{this.finish();}catch(Throwable ignored){}if(instances.remove(this.getClass(),this.weakThis)) this.finalizing();
     }
 }
